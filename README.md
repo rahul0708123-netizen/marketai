@@ -1,75 +1,52 @@
-# ⚡ MarketAI Suite
-**AI-Powered Sales & Marketing Platform** | Hackathon Build
+# MarketAI Suite — README
 
-Built with: **Streamlit** + **Groq API** (LLaMA 3.3 70B)
+## How to Run
 
----
-
-## 🚀 Quick Start (2 minutes)
-
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Run the app
-```bash
-streamlit run app.py
-```
-
-### 3. Open browser → `http://localhost:8501`
-
-### 4. Enter your Groq API Key in the sidebar
-Get a free key at: https://console.groq.com
+Just **double-click** `MarketAI_Suite_Final.html` — it opens directly in your browser. No installation, no server, no setup required.
 
 ---
 
-## 🎯 Features
+## First Time Setup (One-Time Only)
 
-| Feature | Description |
+When you open the file for the first time, a **Setup Screen** will appear asking for a Groq API key.
+
+### Get your free Groq API key:
+1. Go to **https://console.groq.com**
+2. Sign up for free — no credit card needed
+3. Click **API Keys** in the left sidebar
+4. Click **Create API Key** → copy the key (starts with `gsk_...`)
+5. Paste it into the Setup Screen and click **Save Key & Launch App**
+
+✅ The key is saved permanently in your browser. You will never be asked for it again.
+
+---
+
+## Creating an Account
+
+1. On the login screen, click the **Sign Up** tab
+2. Enter your name, email, and password
+3. Click **Create Account** — you're in
+
+Next time, just use the **Sign In** tab with your email and password.
+
+---
+
+## AI Tools Available
+
+| Tool | What it does |
 |---|---|
-| 📢 **Campaign Generator** | Full marketing strategy: campaign objectives, 5 content ideas, 3 ad copy variations, CTAs |
-| 🎯 **Sales Pitch Generator** | Personalized B2B pitch: 30-sec elevator, value prop, differentiators, objection handling, CTA |
-| 📊 **Lead Scoring** | BANT analysis: 0-100 score, BANT breakdown, conversion probability %, next actions |
+| 📢 Campaign Generator | Full marketing campaigns with ad copy, content ideas & CTAs |
+| 🎯 Sales Pitch Generator | Personalized B2B pitches with objection handling |
+| 📊 Lead Scoring | BANT-based lead qualification with conversion probability |
+| 🤖 AI Insights | Chat with AI for marketing strategy & advice |
+| 📈 Data Analytics | Upload CSV/Excel files and analyze with plain English questions |
 
 ---
 
-## 🧪 Test Cases (from brief)
+## Notes
 
-**Campaign Test:**
-- Product: `AI-powered email marketing platform`
-- Audience: `Marketing managers, mid-size e-commerce companies, budget-conscious`
-- Platform: `LinkedIn + Instagram`
-
-**Pitch Test:**
-- Product: `Cloud-based inventory management system`
-- Persona: `Operations Director, Fortune 500 retail company, scaling across 500 stores`
-- Industry: `Retail / E-commerce` | Size: `Fortune 500`
-
-**Lead Scoring Test:**
-- Lead: `Sarah Johnson`
-- Budget: `$150,000 annual software budget, can approve deals up to $50,000`
-- Need: `Improving customer retention by 20%, reducing churn`
-- Urgency: `Board of directors requested solution by end of Q3, high priority`
-
----
-
-## 🏗️ Architecture
-
-```
-app.py          ← Single-file Streamlit app
-requirements.txt ← groq + streamlit only
-
-Flow:
-User Input → Streamlit UI → Groq API (LLaMA 3.3 70B) → Parsed Response → Display
-```
-
----
-
-## 📁 Project Structure
-```
-marketai_suite/
-├── app.py           # Main application (all features)
-├── requirements.txt # Dependencies
-└── README.md        # This file
-```
+- Works in Chrome, Edge, Firefox, and Safari
+- Each user's data (campaigns, pitches, leads) is stored separately in the browser
+- Click your name in the bottom-left sidebar to sign out
+- Click **Change API Key** in the sidebar if you ever need to update your Groq key
+- Free Groq tier gives 14,400 requests/day — more than enough for normal use
