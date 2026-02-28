@@ -421,7 +421,7 @@ with st.sidebar:
         st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    api_key = "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"  # 🔑 Replace with your actual key
+    api_key = "enter the API_KEY"  # 🔑 Replace with your actual key
     st.markdown("""
     <div style="font-size:0.75rem;color:#5a5870;line-height:1.6;">
         <strong style="color:#7c7a90;">Model:</strong> LLaMA 3.3 70B<br>
