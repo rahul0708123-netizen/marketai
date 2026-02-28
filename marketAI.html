@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)file:///C:/Users/K.Rahul%20Rao/Downloads/marketai-suite-upgraded%20(1).html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketAI Suite — Powered by Groq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-grad:       linear-gradient(155deg, #faf7f4 0%, #f3eef8 45%, #ede8f5 100%);
+  --bg-card:       rgba(255,253,250,0.78);
+  --bg-card-solid: rgba(255,253,250,0.96);
+  --bg-glass:      rgba(255,253,250,0.58);
+  --bg-sidebar:    rgba(252,249,245,0.85);
+  --blue:    #6366f1;
+  --purple:  #9b5de5;
+  --cyan:    #22b8cf;
+  --green:   #2dd4a0;
+  --amber:   #d97706;
+  --rose:    #e8637a;
+  --lavender:#b5a4e8;
+  --grad-primary: linear-gradient(135deg, #6366f1 0%, #9b5de5 100%);
+  --grad-teal:    linear-gradient(135deg, #22b8cf 0%, #6366f1 100%);
+  --grad-green:   linear-gradient(135deg, #2dd4a0 0%, #22b8cf 100%);
+  --text-primary:   #2c2438;
+  --text-secondary: #6b6080;
+  --text-muted:     #a89fbc;
+  --border:       rgba(160,145,190,0.18);
+  --border-focus: rgba(99,102,241,0.4);
+  --shadow-sm: 0 1px 4px rgba(100,80,140,0.07), 0 4px 18px rgba(100,80,140,0.07);
+  --shadow-md: 0 6px 28px rgba(100,80,140,0.13), 0 1px 4px rgba(100,80,140,0.07);
+  --radius: 18px; --radius-sm: 12px;
+}
+
+html, body { height:100%; width:100%; font-family:'Instrument Sans',sans-serif; background:var(--bg-grad); color:var(--text-primary); overflow:hidden; font-size:15px; -webkit-font-smoothing:antialiased; }
+
+body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse 75% 55% at 10% 8%, rgba(181,164,232,0.20) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 90% 15%, rgba(155,93,229,0.09) 0%, transparent 55%), radial-gradient(ellipse 55% 45% at 55% 88%, rgba(99,102,241,0.07) 0%, transparent 55%), radial-gradient(ellipse 40% 35% at 25% 70%, rgba(215,200,240,0.13) 0%, transparent 50%); pointer-events:none; z-index:0; animation:meshShift 16s ease-in-out infinite alternate; }
+@keyframes meshShift { 0%{transform:scale(1) translateY(0)} 100%{transform:scale(1.06) translateY(-14px)} }
+
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); background-size:256px; pointer-events:none; z-index:0; opacity:0.55; }
+
+.layout { display:flex; height:100vh; position:relative; z-index:1; }
+
+/* ─── SIDEBAR ─── */
+.sidebar { width:236px; flex-shrink:0; background:var(--bg-sidebar); backdrop-filter:blur(28px) saturate(180%); border-right:1px solid rgba(181,164,232,0.20); display:flex; flex-direction:column; padding:22px 14px 18px; box-shadow:4px 0 32px rgba(100,80,140,0.07); }
+.logo { display:flex; flex-direction:column; align-items:center; padding:4px 6px 22px; border-bottom:1px solid var(--border); margin-bottom:10px; text-align:center; gap:10px; }
+.logo-icon-wrap { width:54px; height:54px; background:var(--grad-primary); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:0 6px 20px rgba(99,102,241,0.32),0 0 0 4px rgba(181,164,232,0.18); }
+.logo-text { font-family:'Cabinet Grotesk',sans-serif; font-weight:900; font-size:1.22rem; letter-spacing:-0.03em; background:var(--grad-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.1; }
+.logo-tag { display:inline-flex; align-items:center; gap:5px; background:rgba(181,164,232,0.18); border:1px solid rgba(181,164,232,0.35); border-radius:99px; padding:3px 10px; font-size:0.6rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--purple); }
+.logo-dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.nav-label-section { font-size:0.62rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); padding:12px 8px 5px; }
+.nav-item { display:flex; align-items:center; gap:9px; padding:9px 10px; border-radius:10px; cursor:pointer; font-size:0.855rem; font-weight:500; color:var(--text-secondary); transition:all 0.17s ease; position:relative; user-select:none; margin-bottom:1px; }
+.nav-item:hover { color:var(--blue); background:rgba(99,102,241,0.07); transform:translateX(2px); }
+.nav-item.active { background:var(--grad-primary); color:white; font-weight:600; box-shadow:0 4px 14px rgba(99,102,241,0.28); }
+.nav-item.active .nav-icon { filter:brightness(10); }
+.nav-icon { font-size:0.95rem; flex-shrink:0; }
+.nav-badge { margin-left:auto; font-size:0.6rem; font-weight:700; padding:2px 7px; border-radius:99px; letter-spacing:0.03em; }
+.nav-item.active .nav-badge { background:rgba(255,255,255,0.22); color:white; }
+.sidebar-footer { margin-top:auto; padding-top:14px; border-top:1px solid var(--border); }
+.user-chip { display:flex; align-items:center; gap:9px; padding:8px 8px; border-radius:10px; cursor:pointer; transition:background 0.15s; }
+.user-chip:hover { background:rgba(99,102,241,0.06); }
+.user-avatar { width:30px; height:30px; border-radius:50%; background:var(--grad-primary); display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:800; color:white; flex-shrink:0; }
+.user-name { font-size:0.8rem; font-weight:600; color:var(--text-primary); }
+.user-plan { font-size:0.62rem; color:var(--text-muted); }
+
+/* ─── MAIN ─── */
+.main { flex:1; overflow-y:auto; padding:24px 28px 28px; display:flex; flex-direction:column; gap:20px; scrollbar-width:thin; scrollbar-color:rgba(181,164,232,0.25) transparent; }
+.main::-webkit-scrollbar { width:4px; }
+.main::-webkit-scrollbar-thumb { background:rgba(181,164,232,0.25); border-radius:99px; }
+
+/* ─── PAGES ─── */
+.page { display:none; flex-direction:column; gap:20px; animation:fadeUp 0.35s ease both; }
+.page.active { display:flex; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── TOPBAR ─── */
+.topbar { display:flex; align-items:flex-start; justify-content:space-between; animation:slideDown 0.4s ease both; }
+.page-eyebrow { font-size:0.65rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--purple); margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.page-eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:var(--grad-primary); border-radius:99px; }
+.page-title { font-family:'Cabinet Grotesk',sans-serif; font-size:2.1rem; font-weight:900; letter-spacing:-0.04em; line-height:1; color:var(--text-primary); }
+.page-subtitle { font-size:0.83rem; color:var(--text-secondary); margin-top:5px; line-height:1.5; }
+.topbar-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+
+/* Hero banner */
+.hero-banner { background:linear-gradient(135deg,rgba(181,164,232,0.18) 0%,rgba(99,102,241,0.08) 50%,rgba(215,200,240,0.14) 100%); border:1px solid rgba(181,164,232,0.28); border-radius:20px; padding:24px 28px; display:flex; align-items:center; justify-content:space-between; position:relative; overflow:hidden; animation:slideDown 0.4s ease both; }
+.hero-banner::before { content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px; background:radial-gradient(circle,rgba(181,164,232,0.25) 0%,transparent 70%); pointer-events:none; }
+.hero-title-eyebrow { font-size:0.65rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--purple); display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+.hero-title-eyebrow::before { content:''; display:inline-block; width:16px; height:2px; background:var(--grad-primary); border-radius:99px; }
+.hero-main-title { font-family:'Cabinet Grotesk',sans-serif; font-size:2.8rem; font-weight:900; letter-spacing:-0.05em; line-height:0.95; background:var(--grad-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:8px; }
+.hero-sub { font-size:0.88rem; color:var(--text-secondary); line-height:1.55; max-width:380px; }
+.hero-chips { display:flex; gap:7px; margin-top:14px; flex-wrap:wrap; }
+.hero-chip { display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:99px; font-size:0.68rem; font-weight:700; letter-spacing:0.04em; border:1px solid rgba(181,164,232,0.3); background:rgba(255,253,250,0.7); color:var(--text-secondary); }
+.hero-chip span { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.hero-badge { display:flex; flex-direction:column; align-items:flex-end; gap:6px; position:relative; z-index:1; }
+.hero-badge-icon { width:64px; height:64px; background:var(--grad-primary); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 8px 24px rgba(99,102,241,0.30),0 0 0 6px rgba(181,164,232,0.20); }
+.hero-model-tag { font-size:0.65rem; font-weight:700; letter-spacing:0.06em; color:var(--text-muted); text-transform:uppercase; }
+
+/* ─── API STATUS ─── */
+.api-status { display:flex; align-items:center; gap:7px; padding:7px 13px; border-radius:10px; border:1px solid var(--border); background:var(--bg-glass); backdrop-filter:blur(12px); font-size:0.78rem; font-weight:500; color:var(--text-secondary); cursor:pointer; transition:all 0.18s; }
+.api-status:hover { border-color:rgba(181,164,232,0.5); background:var(--bg-card-solid); }
+.api-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.api-dot.ok  { background:var(--green); box-shadow:0 0 0 3px rgba(45,212,160,0.22); }
+.api-dot.bad { background:var(--rose); box-shadow:0 0 0 3px rgba(232,99,122,0.22); }
+.api-dot.idle { background:var(--amber); animation:blink 1.5s ease-in-out infinite; }
+
+/* ─── BUTTONS ─── */
+.btn-primary { display:flex; align-items:center; gap:6px; padding:9px 16px; background:var(--grad-primary); color:white; border-radius:10px; font-size:0.82rem; font-weight:600; cursor:pointer; border:none; transition:all 0.2s; box-shadow:0 4px 14px rgba(99,102,241,0.28); white-space:nowrap; font-family:inherit; }
+.btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(99,102,241,0.38); }
+.btn-primary:active { transform:scale(0.97); }
+.btn-primary:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
+.btn-ghost { flex:1; padding:10px; border:1px solid var(--border); border-radius:10px; background:none; cursor:pointer; font-size:0.85rem; color:var(--text-secondary); font-family:inherit; transition:all 0.15s; }
+.btn-ghost:hover { background:rgba(99,102,241,0.05); border-color:var(--border-focus); color:var(--blue); }
+
+/* ─── STAT CARDS ─── */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.stat-card { background:var(--bg-card); backdrop-filter:blur(20px) saturate(160%); border:1px solid rgba(181,164,232,0.17); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow-sm); transition:all 0.22s ease; cursor:default; }
+.stat-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.stat-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.stat-lbl { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); }
+.stat-ico { width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.9rem; }
+.stat-ico.c1{background:rgba(99,102,241,0.10)} .stat-ico.c2{background:rgba(155,93,229,0.10)} .stat-ico.c3{background:rgba(45,212,160,0.10)} .stat-ico.c4{background:rgba(215,119,6,0.10)}
+.stat-val { font-family:'Cabinet Grotesk',sans-serif; font-size:1.9rem; font-weight:900; letter-spacing:-0.04em; line-height:1; color:var(--text-primary); margin-bottom:5px; }
+.stat-change { display:inline-flex; align-items:center; gap:3px; font-size:0.7rem; font-weight:600; padding:2px 7px; border-radius:99px; background:rgba(120,130,200,0.08); color:var(--text-muted); }
+.stat-change.up { background:rgba(45,212,160,0.10); color:var(--green); }
+
+/* ─── SECTION HEADER ─── */
+.section-hdr { display:flex; align-items:center; justify-content:space-between; }
+.section-title { font-family:'Cabinet Grotesk',sans-serif; font-size:1rem; font-weight:800; letter-spacing:-0.02em; color:var(--text-primary); }
+.section-link { font-size:0.72rem; font-weight:600; color:var(--purple); cursor:pointer; }
+
+/* ─── FEATURE CARDS ─── */
+.feature-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.fcard { background:var(--bg-card); backdrop-filter:blur(20px) saturate(160%); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); cursor:pointer; transition:all 0.25s cubic-bezier(0.22,1,0.36,1); position:relative; overflow:hidden; display:flex; flex-direction:column; gap:12px; }
+.fcard::after { content:''; position:absolute; inset:0; border-radius:var(--radius); padding:1px; background:var(--grad-primary); -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity 0.25s; pointer-events:none; }
+.fcard:hover { transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:rgba(181,164,232,0.4); }
+.fcard:hover::after { opacity:1; }
+.fcard-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.25rem; }
+.fi-a{background:linear-gradient(135deg,rgba(99,102,241,.13),rgba(155,93,229,.13))}
+.fi-b{background:linear-gradient(135deg,rgba(34,184,207,.12),rgba(99,102,241,.12))}
+.fi-c{background:linear-gradient(135deg,rgba(45,212,160,.12),rgba(34,184,207,.12))}
+.fi-d{background:linear-gradient(135deg,rgba(155,93,229,.13),rgba(181,164,232,.18))}
+.fi-e{background:linear-gradient(135deg,rgba(215,119,6,.11),rgba(45,212,160,.11))}
+.fcard-title { font-family:'Cabinet Grotesk',sans-serif; font-size:0.98rem; font-weight:800; letter-spacing:-0.02em; color:var(--text-primary); margin-bottom:4px; }
+.fcard-desc { font-size:0.78rem; line-height:1.55; color:var(--text-secondary); }
+.fcard-foot { display:flex; align-items:center; justify-content:space-between; padding-top:10px; border-top:1px solid var(--border); margin-top:auto; }
+.fcard-foot span { font-size:0.7rem; color:var(--text-muted); }
+.arrow-btn { width:24px; height:24px; border-radius:7px; background:rgba(99,102,241,0.08); display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:var(--blue); transition:all 0.2s; }
+.fcard:hover .arrow-btn { background:var(--grad-primary); color:white; transform:translateX(2px); box-shadow:0 2px 8px rgba(99,102,241,.28); }
+
+/* ─── FORMS ─── */
+.form-card { background:var(--bg-card); backdrop-filter:blur(20px) saturate(160%); border:1px solid var(--border); border-radius:var(--radius); padding:26px 28px; box-shadow:var(--shadow-sm); }
+.form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group.full { grid-column:1/-1; }
+label { font-size:0.75rem; font-weight:600; color:var(--text-secondary); letter-spacing:0.03em; }
+input[type="text"], input[type="password"], textarea, select { background:rgba(252,249,245,0.85); border:1px solid var(--border); border-radius:10px; padding:10px 13px; font-size:0.85rem; color:var(--text-primary); font-family:inherit; transition:all 0.18s; outline:none; resize:vertical; width:100%; }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(99,102,241,0.09); background:#fffcf9; }
+textarea { min-height:90px; line-height:1.55; }
+select { cursor:pointer; }
+::placeholder { color:var(--text-muted); }
+.form-actions { display:flex; justify-content:flex-end; padding-top:6px; }
+.form-actions button { min-width:200px; justify-content:center; }
+
+/* ─── MODAL ─── */
+.modal-overlay { position:fixed; inset:0; z-index:1000; background:rgba(15,19,36,0.55); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; animation:fadeIn 0.2s ease; }
+.modal-overlay.hidden { display:none; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modal { background:#faf7f4; border-radius:var(--radius); padding:30px 32px; max-width:460px; width:90%; box-shadow:0 24px 64px rgba(60,40,100,0.18); animation:modalPop 0.25s cubic-bezier(0.22,1,0.36,1); border:1px solid rgba(181,164,232,0.20); }
+@keyframes modalPop { from{opacity:0;transform:scale(0.93) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal h2 { font-family:'Cabinet Grotesk',sans-serif; font-size:1.3rem; font-weight:900; letter-spacing:-0.03em; margin-bottom:6px; }
+.modal p { font-size:0.82rem; color:var(--text-secondary); line-height:1.55; margin-bottom:20px; }
+.modal-link { color:var(--purple); text-decoration:none; font-weight:600; }
+.modal-link:hover { text-decoration:underline; }
+.modal-foot { display:flex; gap:10px; margin-top:16px; }
+
+/* ─── RESULT BOX ─── */
+.result-wrap { display:none; flex-direction:column; gap:14px; }
+.result-wrap.show { display:flex; animation:fadeUp 0.35s ease both; }
+.result-box { background:rgba(252,249,245,0.85); backdrop-filter:blur(12px); border:1px solid var(--border); border-left:4px solid var(--blue); border-radius:var(--radius-sm); padding:20px 22px; white-space:pre-wrap; font-size:0.855rem; line-height:1.8; color:var(--text-secondary); max-height:440px; overflow-y:auto; scrollbar-width:thin; }
+.result-box.pitch-accent { border-left-color:var(--cyan); }
+.result-box.lead-accent  { border-left-color:var(--green); }
+.result-header { display:flex; align-items:center; justify-content:space-between; }
+.result-label { font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:5px 12px; border-radius:99px; }
+.result-label.campaign { background:rgba(99,102,241,0.10); color:var(--blue); }
+.result-label.pitch    { background:rgba(34,184,207,0.10); color:var(--cyan); }
+.result-label.lead     { background:rgba(45,212,160,0.10); color:var(--green); }
+.dl-btn { display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:9px; border:1px solid var(--border); background:var(--bg-glass); font-size:0.78rem; font-weight:600; color:var(--text-secondary); cursor:pointer; transition:all 0.18s; font-family:inherit; }
+.dl-btn:hover { border-color:rgba(181,164,232,0.45); color:var(--blue); background:rgba(99,102,241,0.05); }
+
+/* ─── LEAD SCORE ─── */
+.score-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.score-panel { background:var(--bg-card); backdrop-filter:blur(20px) saturate(160%); border:1px solid var(--border); border-radius:var(--radius); padding:20px; text-align:center; box-shadow:var(--shadow-sm); }
+.score-num { font-family:'Cabinet Grotesk',sans-serif; font-size:3.6rem; font-weight:900; letter-spacing:-0.05em; line-height:1; }
+.score-sublabel { font-size:0.65rem; color:var(--text-muted); margin:3px 0 4px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; }
+.score-status { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; }
+.bant-grid { display:flex; flex-direction:column; gap:10px; padding-top:4px; }
+.bant-row { display:flex; align-items:center; gap:10px; }
+.bant-label { font-size:0.78rem; color:var(--text-secondary); width:80px; flex-shrink:0; }
+.bant-bar-bg { flex:1; height:6px; background:rgba(181,164,232,0.15); border-radius:99px; overflow:hidden; }
+.bant-bar { height:100%; border-radius:99px; transition:width 1.2s cubic-bezier(0.22,1,0.36,1); }
+.bant-score { font-size:0.78rem; font-weight:700; width:38px; text-align:right; flex-shrink:0; }
+
+/* ─── SPINNER ─── */
+.spinner-wrap { display:none; flex-direction:column; align-items:center; gap:14px; padding:36px 0; }
+.spinner-wrap.show { display:flex; }
+.spinner { width:42px; height:42px; border-radius:50%; border:3px solid rgba(181,164,232,0.2); border-top-color:var(--blue); animation:spin 0.75s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.spinner-text { font-size:0.83rem; color:var(--text-secondary); font-style:italic; }
+
+/* ─── HISTORY ─── */
+.history-section { display:flex; flex-direction:column; gap:8px; }
+.history-item { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
+.history-toggle { display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:pointer; transition:background 0.15s; font-size:0.82rem; }
+.history-toggle:hover { background:rgba(99,102,241,0.04); }
+.history-toggle-icon { font-size:0.75rem; color:var(--text-muted); margin-left:auto; transition:transform 0.2s; }
+.history-toggle.open .history-toggle-icon { transform:rotate(180deg); }
+.history-content { display:none; padding:12px 14px 14px; white-space:pre-wrap; font-size:0.8rem; line-height:1.75; color:var(--text-secondary); border-top:1px solid var(--border); }
+.history-content.show { display:block; animation:fadeUp 0.25s ease; }
+.history-tag { font-size:0.62rem; font-weight:700; padding:2px 7px; border-radius:99px; text-transform:uppercase; letter-spacing:0.06em; flex-shrink:0; }
+.htag-campaign { background:rgba(99,102,241,0.10); color:var(--blue); }
+.htag-pitch    { background:rgba(34,184,207,0.10); color:var(--cyan); }
+.htag-lead     { background:rgba(45,212,160,0.10); color:var(--green); }
+.htag-insights { background:rgba(155,93,229,0.10); color:var(--purple); }
+.htag-analytics{ background:rgba(215,119,6,0.10); color:var(--amber); }
+
+/* ─── PIPELINE ─── */
+.pipeline-table { display:flex; flex-direction:column; gap:7px; }
+.pipeline-row { display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:var(--radius-sm); background:rgba(252,249,245,0.75); border:1px solid var(--border); transition:all 0.17s; }
+.pipeline-row:hover { border-color:rgba(181,164,232,0.38); transform:translateX(2px); }
+.p-avatar { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:800; color:white; flex-shrink:0; }
+.p-name { font-size:0.82rem; font-weight:600; color:var(--text-primary); }
+.p-co   { font-size:0.68rem; color:var(--text-muted); }
+.p-score-num { font-family:'Cabinet Grotesk',sans-serif; font-size:1.05rem; font-weight:900; letter-spacing:-0.03em; }
+.p-score-lbl { font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; }
+.p-bar-wrap { flex:1; }
+.p-bar-bg { height:4px; background:rgba(181,164,232,0.15); border-radius:99px; overflow:hidden; }
+.p-bar { height:100%; border-radius:99px; transition:width 1s cubic-bezier(0.22,1,0.36,1); }
+
+/* ─── TOOLTIP ─── */
+[data-tip]{position:relative}
+[data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) scale(0.9);background:#1a1e30;color:white;font-size:0.68rem;font-weight:500;padding:5px 10px;border-radius:7px;white-space:nowrap;pointer-events:none;opacity:0;transition:all 0.17s;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+[data-tip]:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
+
+/* ─── EMPTY STATE ─── */
+.empty-state { display:flex; flex-direction:column; align-items:center; gap:8px; padding:28px; color:var(--text-muted); text-align:center; border:1px dashed rgba(181,164,232,0.22); border-radius:var(--radius); font-size:0.82rem; background:rgba(255,253,250,0.4); }
+.empty-state span:first-child { font-size:1.8rem; }
+
+/* ─── BOTTOM ROW ─── */
+.bottom-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.panel { background:var(--bg-card); backdrop-filter:blur(20px) saturate(160%); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm); }
+.panel-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.panel-title { font-family:'Cabinet Grotesk',sans-serif; font-size:0.92rem; font-weight:800; letter-spacing:-0.02em; }
+.panel-link { font-size:0.72rem; font-weight:600; color:var(--purple); cursor:pointer; }
+.activity-list { display:flex; flex-direction:column; gap:1px; }
+.act-item { display:flex; align-items:flex-start; gap:10px; padding:8px 8px; border-radius:9px; transition:background 0.15s; }
+.act-item:hover { background:rgba(99,102,241,0.04); }
+.act-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.act-text { font-size:0.78rem; color:var(--text-secondary); line-height:1.4; }
+.act-text strong { font-weight:600; color:var(--text-primary); }
+.act-time { font-size:0.66rem; color:var(--text-muted); margin-top:1px; }
+
+/* ═══════════════════════════════════════════════
+   ─── AI INSIGHTS PAGE ───────────────────────── */
+.chat-wrap { display:flex; flex-direction:column; background:var(--bg-card); backdrop-filter:blur(20px) saturate(160%); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); overflow:hidden; flex:1; min-height:0; height:calc(100vh - 310px); }
+.chat-messages { flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:14px; scrollbar-width:thin; scrollbar-color:rgba(181,164,232,0.25) transparent; }
+.chat-messages::-webkit-scrollbar { width:4px; }
+.chat-messages::-webkit-scrollbar-thumb { background:rgba(181,164,232,0.25); border-radius:99px; }
+.chat-msg { display:flex; gap:10px; animation:fadeUp 0.3s ease both; max-width:100%; }
+.chat-msg.user { flex-direction:row-reverse; }
+.chat-avatar { width:32px; height:32px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:0.85rem; }
+.chat-avatar.ai   { background:var(--grad-primary); color:white; }
+.chat-avatar.user { background:rgba(181,164,232,0.22); }
+.chat-bubble { max-width:76%; padding:11px 15px; border-radius:14px; font-size:0.855rem; line-height:1.7; word-break:break-word; }
+.chat-bubble.ai   { background:rgba(255,253,250,0.95); border:1px solid var(--border); color:var(--text-primary); border-radius:4px 14px 14px 14px; }
+.chat-bubble.user { background:var(--grad-primary); color:white; border-radius:14px 4px 14px 14px; }
+.chat-input-row { display:flex; gap:10px; padding:14px 16px; border-top:1px solid var(--border); background:rgba(252,249,245,0.6); }
+.chat-input { flex:1; background:rgba(252,249,245,0.85); border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-size:0.875rem; color:var(--text-primary); font-family:inherit; outline:none; resize:none; transition:all 0.18s; min-height:42px; max-height:110px; line-height:1.5; }
+.chat-input:focus { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(99,102,241,0.09); background:#fffcf9; }
+.chat-send-btn { width:42px; height:42px; border-radius:12px; background:var(--grad-primary); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; color:white; flex-shrink:0; transition:all 0.2s; box-shadow:0 4px 12px rgba(99,102,241,0.28); }
+.chat-send-btn:hover { transform:translateY(-1px) scale(1.04); box-shadow:0 6px 16px rgba(99,102,241,0.36); }
+.chat-send-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.typing-bubble { display:inline-flex; align-items:center; gap:5px; padding:10px 14px; background:rgba(255,253,250,0.95); border:1px solid var(--border); border-radius:4px 14px 14px 14px; }
+.typing-dot { width:7px; height:7px; border-radius:50%; background:var(--lavender); animation:typingBounce 1.2s ease-in-out infinite; }
+.typing-dot:nth-child(2){animation-delay:0.2s} .typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typingBounce { 0%,100%{transform:translateY(0);opacity:0.5} 50%{transform:translateY(-5px);opacity:1} }
+.prompt-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.prompt-chip { padding:7px 13px; border-radius:99px; font-size:0.75rem; font-weight:600; border:1px solid rgba(181,164,232,0.3); background:rgba(255,253,250,0.8); color:var(--text-secondary); cursor:pointer; transition:all 0.18s; font-family:inherit; }
+.prompt-chip:hover { border-color:rgba(99,102,241,0.4); background:rgba(99,102,241,0.06); color:var(--blue); transform:translateY(-1px); }
+
+/* ═══════════════════════════════════════════════
+   ─── DATA ANALYTICS PAGE ─────────────────────── */
+.upload-zone { border:2px dashed rgba(181,164,232,0.38); border-radius:var(--radius); padding:40px 24px; text-align:center; background:rgba(255,253,250,0.6); cursor:pointer; transition:all 0.22s; position:relative; }
+.upload-zone:hover, .upload-zone.drag-over { border-color:rgba(99,102,241,0.5); background:rgba(99,102,241,0.04); transform:scale(1.005); }
+.upload-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.upload-icon { font-size:2.6rem; margin-bottom:12px; }
+.upload-title { font-family:'Cabinet Grotesk',sans-serif; font-size:1.05rem; font-weight:800; color:var(--text-primary); margin-bottom:5px; }
+.upload-sub { font-size:0.8rem; color:var(--text-muted); }
+.upload-formats { display:flex; gap:7px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+.fmt-tag { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; padding:3px 10px; border-radius:99px; border:1px solid; }
+.fmt-csv { background:rgba(45,212,160,0.09); color:var(--green); border-color:rgba(45,212,160,0.25); }
+.fmt-xlsx { background:rgba(22,163,74,0.08); color:#16a34a; border-color:rgba(22,163,74,0.22); }
+.fmt-json { background:rgba(215,119,6,0.09); color:var(--amber); border-color:rgba(215,119,6,0.25); }
+.fmt-txt  { background:rgba(99,102,241,0.09); color:var(--blue); border-color:rgba(99,102,241,0.22); }
+
+.file-card { background:var(--bg-card); border:1px solid rgba(45,212,160,0.28); border-radius:var(--radius-sm); padding:14px 18px; display:flex; align-items:center; gap:12px; animation:fadeUp 0.3s ease; }
+.file-icon { width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+.file-meta { flex:1; min-width:0; }
+.file-name { font-size:0.88rem; font-weight:700; color:var(--text-primary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.file-info { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+.file-remove { cursor:pointer; color:var(--text-muted); font-size:1.1rem; padding:4px; border-radius:6px; transition:all 0.15s; flex-shrink:0; }
+.file-remove:hover { background:rgba(232,99,122,0.1); color:var(--rose); }
+
+.data-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.ds-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; text-align:center; }
+.ds-val { font-family:'Cabinet Grotesk',sans-serif; font-size:1.5rem; font-weight:900; letter-spacing:-0.03em; color:var(--text-primary); }
+.ds-lbl { font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.07em; font-weight:700; margin-top:2px; }
+
+.data-preview-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; max-height:220px; overflow-y:auto; scrollbar-width:thin; }
+.data-preview-wrap table { width:100%; border-collapse:collapse; font-size:0.78rem; }
+.data-preview-wrap th { background:rgba(181,164,232,0.12); padding:8px 12px; text-align:left; font-weight:700; color:var(--text-secondary); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; border-bottom:1px solid var(--border); white-space:nowrap; position:sticky; top:0; }
+.data-preview-wrap td { padding:7px 12px; border-bottom:1px solid rgba(181,164,232,0.08); color:var(--text-secondary); white-space:nowrap; max-width:160px; overflow:hidden; text-overflow:ellipsis; }
+.data-preview-wrap tr:last-child td { border-bottom:none; }
+.data-preview-wrap tr:hover td { background:rgba(181,164,232,0.06); }
+
+.query-chips { display:flex; gap:7px; flex-wrap:wrap; }
+.query-chip { padding:6px 12px; border-radius:99px; font-size:0.73rem; font-weight:600; border:1px solid rgba(181,164,232,0.28); background:rgba(255,253,250,0.8); color:var(--text-secondary); cursor:pointer; transition:all 0.17s; font-family:inherit; }
+.query-chip:hover { border-color:rgba(99,102,241,0.4); background:rgba(99,102,241,0.06); color:var(--blue); transform:translateY(-1px); }
+.query-row { display:flex; gap:10px; align-items:flex-end; }
+.query-row textarea { min-height:52px; max-height:100px; resize:none; }
+
+.analytics-result { display:none; flex-direction:column; gap:14px; }
+.analytics-result.show { display:flex; animation:fadeUp 0.35s ease both; }
+.analytics-output { background:rgba(252,249,245,0.85); border:1px solid var(--border); border-left:4px solid var(--amber); border-radius:var(--radius-sm); padding:20px 22px; white-space:pre-wrap; font-size:0.855rem; line-height:1.8; color:var(--text-secondary); max-height:500px; overflow-y:auto; scrollbar-width:thin; }
+.chart-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:20px; display:none; }
+.chart-wrap.show { display:block; animation:fadeUp 0.35s ease; }
+/* ─── LOGIN PAGE ─── */
+#loginPage { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:var(--bg-grad); }
+#loginPage.hidden { display:none; }
+.login-card { background:var(--bg-card-solid); border:1px solid rgba(181,164,232,0.28); border-radius:24px; padding:44px 44px 36px; width:100%; max-width:420px; box-shadow:var(--shadow-md),0 0 0 1px rgba(181,164,232,0.10); display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; }
+.login-logo-wrap { width:60px; height:60px; background:var(--grad-primary); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:16px; box-shadow:0 8px 24px rgba(99,102,241,0.32); }
+.login-title { font-family:'Cabinet Grotesk',sans-serif; font-size:1.9rem; font-weight:900; letter-spacing:-0.04em; background:var(--grad-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px; text-align:center; }
+.login-subtitle { font-size:0.82rem; color:var(--text-secondary); text-align:center; margin-bottom:24px; line-height:1.5; }
+.login-tabs { display:flex; width:100%; background:rgba(181,164,232,0.13); border-radius:12px; padding:3px; margin-bottom:22px; gap:0; }
+.login-tab { flex:1; padding:7px; text-align:center; font-size:0.82rem; font-weight:600; border-radius:10px; cursor:pointer; transition:all 0.18s; color:var(--text-secondary); }
+.login-tab.active { background:white; color:var(--blue); box-shadow:0 2px 8px rgba(100,80,140,0.12); }
+.login-form { width:100%; display:flex; flex-direction:column; gap:14px; }
+.login-err { font-size:0.78rem; color:var(--rose); text-align:center; min-height:18px; font-weight:500; }
+.login-btn { margin-top:2px; padding:11px; background:var(--grad-primary); color:white; font-family:'Cabinet Grotesk',sans-serif; font-size:0.95rem; font-weight:700; border:none; border-radius:11px; cursor:pointer; box-shadow:0 4px 16px rgba(99,102,241,0.28); transition:opacity 0.15s,transform 0.15s; width:100%; }
+.login-btn:hover { opacity:0.88; transform:translateY(-1px); }
+.login-footer { margin-top:16px; font-size:0.7rem; color:var(--text-muted); text-align:center; }
+
+/* ─── SETUP SCREEN ─── */
+#setupPage { position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center; background:var(--bg-grad); }
+#setupPage.hidden { display:none; }
+.setup-card { background:var(--bg-card-solid); border:1px solid rgba(181,164,232,0.28); border-radius:24px; padding:44px; width:100%; max-width:480px; box-shadow:var(--shadow-md); }
+.setup-step { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.setup-step-num { width:26px; height:26px; border-radius:50%; background:var(--grad-primary); color:white; font-size:0.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.setup-step-text { font-size:0.83rem; color:var(--text-secondary); line-height:1.5; }
+.setup-step-text a { color:var(--purple); font-weight:600; text-decoration:none; }
+.setup-step-text a:hover { text-decoration:underline; }
+.setup-divider { height:1px; background:var(--border); margin:22px 0; }
+.setup-err { font-size:0.78rem; color:var(--rose); min-height:18px; font-weight:500; margin-top:4px; }
+
+
+</style>
+<body>
+
+<!-- ══ ONE-TIME SETUP SCREEN (shown only when no API key saved) ══ -->
+<div id="setupPage" class="hidden">
+  <div class="setup-card">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="width:60px;height:60px;background:var(--grad-primary);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(99,102,241,0.32);">⚙️</div>
+      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:1.6rem;font-weight:900;letter-spacing:-0.04em;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">One-Time Setup</div>
+      <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px;">Add your free Groq API key. This is saved once — users will never see this screen.</div>
+    </div>
+
+    <div class="setup-step">
+      <div class="setup-step-num">1</div>
+      <div class="setup-step-text">Go to <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a> and sign up for free</div>
+    </div>
+    <div class="setup-step" style="margin-top:10px;">
+      <div class="setup-step-num">2</div>
+      <div class="setup-step-text">Click <strong>"Create API Key"</strong> and copy it (starts with <code style="background:rgba(99,102,241,0.08);padding:1px 6px;border-radius:5px;font-size:0.82rem;">gsk_...</code>)</div>
+    </div>
+    <div class="setup-step" style="margin-top:10px;">
+      <div class="setup-step-num">3</div>
+      <div class="setup-step-text">Paste it below and click <strong>Save Key</strong> — done forever</div>
+    </div>
+
+    <div class="setup-divider"></div>
+
+    <div class="form-group">
+      <label>Groq API Key</label>
+      <input type="password" id="setupKeyInput" placeholder="gsk_••••••••••••••••••••••••••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')saveSetupKey()">
+      <div class="setup-err" id="setupErr"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="btn-primary" onclick="saveSetupKey()" style="flex:1;justify-content:center;">💾 Save Key &amp; Launch App →</button>
+    </div>
+    <div style="margin-top:16px;font-size:0.7rem;color:var(--text-muted);text-align:center;">🔒 Key is stored only in this browser's localStorage · Free tier gives 14,400 requests/day</div>
+  </div>
+</div>
+
+
+<!-- ══ LOGIN PAGE ══ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logo-wrap">⚡</div>
+    <div class="login-title">MarketAI Suite</div>
+    <div class="login-subtitle">AI-powered marketing tools — Campaign Generator, Sales Pitch, Lead Scoring, AI Insights & Data Analytics</div>
+    <div class="login-tabs">
+      <div class="login-tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+      <div class="login-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</div>
+    </div>
+    <!-- Sign In -->
+    <div class="login-form" id="form-login">
+      <div class="form-group"><label>Email</label><input type="email" id="li-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="li-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="login-err" id="li-err"></div>
+      <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    </div>
+    <!-- Sign Up -->
+    <div class="login-form" id="form-signup" style="display:none">
+      <div class="form-group"><label>Full Name</label><input type="text" id="su-name" placeholder="Your Name"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="su-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password (min 6 chars)</label><input type="password" id="su-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSignup()"></div>
+      <div class="login-err" id="su-err"></div>
+      <button class="login-btn" onclick="doSignup()">Create Account →</button>
+    </div>
+    <div class="login-footer">🔒 Your data is stored locally in this browser</div>
+  </div>
+</div>
+
+<!-- API KEY MODAL (hidden — key is built-in) -->
+<div class="modal-overlay hidden" id="apiModal">
+  <div class="modal">
+    <h2>🔑 Enter your Groq API Key</h2>
+    <p>MarketAI Suite uses <strong>Groq + Claude AI</strong> to power all five AI tools. Your key is stored only in your browser — never sent anywhere else.<br><br>
+    Don't have a key? <a class="modal-link" href="https://console.groq.com/keys" target="_blank">Get one free at console.groq.com →</a></p>
+    <div class="form-group">
+      <label>API Key</label>
+      <input type="password" id="apiKeyInput" placeholder="gsk_••••••••••••••••••••••••••••••••" autocomplete="off">
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="closeModal()">Skip for now</button>
+      <button class="btn-primary" onclick="saveApiKey()" style="flex:2;justify-content:center;">Save &amp; Continue →</button>
+    </div>
+  </div>
+</div>
+
+<div id="appRoot" style="display:none;height:100%;width:100%;position:relative;z-index:1">
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon-wrap">⚡</div>
+      <div class="logo-text">MarketAI Suite</div>
+      <div class="logo-tag"><span class="logo-dot"></span>Groq · LLaMA 3.3 70B</div>
+    </div>
+
+    <div class="nav-label-section">Main</div>
+    <div class="nav-item active" id="nav-dashboard" onclick="showPage(&#39;dashboard&#39;,this)"><span class="nav-icon">🏠</span> Dashboard</div>
+    <div class="nav-item" id="nav-campaign" onclick="showPage(&#39;campaign&#39;,this)"><span class="nav-icon">📢</span> Campaign Generator</div>
+    <div class="nav-item" id="nav-pitch" onclick="showPage(&#39;pitch&#39;,this)"><span class="nav-icon">🎯</span> Sales Pitch</div>
+    <div class="nav-item" id="nav-lead" onclick="showPage(&#39;lead&#39;,this)"><span class="nav-icon">📊</span> Lead Scoring</div>
+
+    <div class="nav-label-section">Intelligence</div>
+    <div class="nav-item" id="nav-insights" onclick="showPage(&#39;insights&#39;,this)">
+      <span class="nav-icon">🤖</span> AI Insights
+      <span class="nav-badge" style="background:rgba(45,212,160,0.14);color:var(--green)">New</span>
+    </div>
+    <div class="nav-item" id="nav-analytics" onclick="showPage(&#39;analytics&#39;,this)">
+      <span class="nav-icon">📈</span> Data Analytics
+      <span class="nav-badge" style="background:rgba(45,212,160,0.14);color:var(--green)">New</span>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-chip" onclick="doLogout()" title="Click to sign out">
+        <div class="user-avatar" id="userInitialsEl">?</div>
+        <div><div class="user-name" id="userNameEl">Loading...</div><div class="user-plan">Click to sign out</div></div>
+      </div>
+      <div onclick="clearAllData()" style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;cursor:pointer;margin-top:2px;transition:background 0.15s;" onmouseover="this.style.background='rgba(232,99,122,0.08)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:0.85rem">🗑️</span>
+        <span style="font-size:0.75rem;color:var(--rose);font-weight:600;">Clear My Data</span>
+      </div>
+      <div onclick="changeApiKey()" style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;cursor:pointer;margin-top:2px;transition:background 0.15s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:0.85rem">🔑</span>
+        <span style="font-size:0.75rem;color:var(--blue);font-weight:600;">Change API Key</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="page active" id="page-dashboard">
+      <div class="hero-banner">
+        <div style="position:relative;z-index:1;">
+          <div class="hero-title-eyebrow">AI Marketing Platform</div>
+          <div class="hero-main-title">MarketAI Suite</div>
+          <div class="hero-sub">Generate campaigns, craft pitches, qualify leads, get AI insights and analyze data — powered by Claude AI.</div>
+          <div class="hero-chips">
+            <span class="hero-chip"><span style="background:var(--blue)"></span>Campaigns</span>
+            <span class="hero-chip"><span style="background:var(--cyan)"></span>Pitches</span>
+            <span class="hero-chip"><span style="background:var(--green)"></span>Lead Scoring</span>
+            <span class="hero-chip"><span style="background:var(--purple)"></span>AI Insights</span>
+            <span class="hero-chip"><span style="background:var(--amber)"></span>Analytics</span>
+          </div>
+        </div>
+        <div class="hero-badge">
+          <div class="hero-badge-icon">⚡</div>
+          <div class="hero-model-tag">Claude AI</div>
+          <div class="api-status" onclick="openModal()" id="apiStatusBadge" style="font-size:0.72rem;padding:5px 11px;">
+            <div class="api-dot ok" id="apiDot"></div>
+            <span id="apiStatusText">Groq Connected ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar" style="margin-top:-4px;">
+        <div><div class="page-eyebrow">Overview</div><div class="page-title">Dashboard</div></div>
+        <div class="topbar-right">
+          <button class="btn-primary" onclick="showPage(&#39;campaign&#39;,document.getElementById(&#39;nav-campaign&#39;))">＋ New Campaign</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-header"><span class="stat-lbl">Campaigns</span><div class="stat-ico c1">📢</div></div><div class="stat-val" id="s-campaigns">0</div><span class="stat-change">AI-powered</span></div>
+        <div class="stat-card"><div class="stat-header"><span class="stat-lbl">Pitches</span><div class="stat-ico c2">🎯</div></div><div class="stat-val" id="s-pitches">0</div><span class="stat-change">AI-powered</span></div>
+        <div class="stat-card"><div class="stat-header"><span class="stat-lbl">Leads Scored</span><div class="stat-ico c3">📊</div></div><div class="stat-val" id="s-leads">0</div><span class="stat-change">AI-powered</span></div>
+        <div class="stat-card"><div class="stat-header"><span class="stat-lbl">Avg. Lead Score</span><div class="stat-ico c4">⚡</div></div><div class="stat-val" id="s-avgscore">—</div><span class="stat-change" id="s-avgscore-change">No leads yet</span></div>
+      </div>
+
+      <div class="section-hdr"><div class="section-title">AI Tools</div></div>
+      <div class="feature-grid">
+        <div class="fcard" onclick="showPage(&#39;campaign&#39;,document.getElementById(&#39;nav-campaign&#39;))"><div class="fcard-icon fi-a">📢</div><div><div class="fcard-title">Campaign Generator</div><div class="fcard-desc">Generate full campaigns with content ideas, ad copy variations, and platform-specific CTAs in seconds.</div></div><div class="fcard-foot"><span>LinkedIn · Instagram · Google</span><div class="arrow-btn">→</div></div></div>
+        <div class="fcard" onclick="showPage(&#39;pitch&#39;,document.getElementById(&#39;nav-pitch&#39;))"><div class="fcard-icon fi-b">🎯</div><div><div class="fcard-title">Sales Pitch Generator</div><div class="fcard-desc">Craft personalized B2B pitches with elevator speech, value props, differentiators, and objection handling.</div></div><div class="fcard-foot"><span>B2B · Enterprise · Fortune 500</span><div class="arrow-btn">→</div></div></div>
+        <div class="fcard" onclick="showPage(&#39;lead&#39;,document.getElementById(&#39;nav-lead&#39;))"><div class="fcard-icon fi-c">📊</div><div><div class="fcard-title">Lead Scoring</div><div class="fcard-desc">Qualify and score leads using BANT methodology with conversion probability and next steps.</div></div><div class="fcard-foot"><span>BANT · AI Score · Pipeline</span><div class="arrow-btn">→</div></div></div>
+        <div class="fcard" onclick="showPage(&#39;insights&#39;,document.getElementById(&#39;nav-insights&#39;))"><div class="fcard-icon fi-d">🤖</div><div><div class="fcard-title">AI Insights</div><div class="fcard-desc">Chat with AI for strategy, market analysis, competitive intelligence, and actionable recommendations.</div></div><div class="fcard-foot"><span>Strategy · Research · Chat</span><div class="arrow-btn">→</div></div></div>
+        <div class="fcard" onclick="showPage(&#39;analytics&#39;,document.getElementById(&#39;nav-analytics&#39;))"><div class="fcard-icon fi-e">📈</div><div><div class="fcard-title">Data Analytics</div><div class="fcard-desc">Upload CSV, Excel, or JSON files and ask questions in plain English — AI analyzes and visualizes your data.</div></div><div class="fcard-foot"><span>CSV · Excel · JSON · Charts</span><div class="arrow-btn">→</div></div></div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="panel">
+          <div class="panel-hdr"><div class="panel-title">Recent Activity</div></div>
+          <div class="activity-list" id="activityList"><div class="empty-state"><span>📋</span><span>No activity yet.</span></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-hdr"><div class="panel-title">Lead Pipeline</div><span class="panel-link" onclick="showPage(&#39;lead&#39;,document.getElementById(&#39;nav-lead&#39;))">Score new →</span></div>
+          <div class="pipeline-table" id="pipelineTable"><div class="empty-state"><span>📊</span><span>No leads scored yet.</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CAMPAIGN ══ -->
+    <div class="page" id="page-campaign">
+      <div class="topbar">
+        <div><div class="page-eyebrow">AI Tool</div><div class="page-title">Campaign Generator</div><div class="page-subtitle">Generate full marketing campaigns tailored to your product and audience</div></div>
+        <div class="topbar-right"><div class="api-status" onclick="openModal()"><div class="api-dot ok" id="apiDot2"></div><span id="apiStatusText2">Groq Connected ✓</span></div></div>
+      </div>
+      <div class="form-card">
+        <div class="form-grid-2">
+          <div class="form-group full"><label>Product / Service Description *</label><textarea id="c-product" placeholder="e.g. AI-powered email marketing platform that helps e-commerce brands automate personalized campaigns..."></textarea></div>
+          <div class="form-group"><label>Target Audience *</label><textarea id="c-audience" placeholder="e.g. Marketing managers at mid-size e-commerce companies, 25–45, budget-conscious..."></textarea></div>
+          <div class="form-group"><label>Primary Platform</label>
+            <select id="c-platform"><option>LinkedIn</option><option>Instagram</option><option>LinkedIn + Instagram</option><option>Facebook</option><option>Twitter / X</option><option>Google Ads</option><option>TikTok</option><option>Email Marketing</option><option>Multi-channel</option></select>
+          </div>
+        </div>
+        <div class="form-actions" style="margin-top:18px;"><button class="btn-primary" id="campaignBtn" onclick="runCampaign()">⚡ Generate Campaign Strategy</button></div>
+      </div>
+      <div class="spinner-wrap" id="campaignSpinner"><div class="spinner"></div><div class="spinner-text">Crafting your campaign with Claude AI…</div></div>
+      <div class="result-wrap" id="campaignResult">
+        <div class="result-header"><span class="result-label campaign">✅ Campaign Strategy Generated</span><button class="dl-btn" id="campaignDlBtn">📥 Download .txt</button></div>
+        <div class="result-box" id="campaignOutput"></div>
+      </div>
+      <div><div class="section-hdr" style="margin-bottom:10px;"><div class="section-title">Previous Campaigns</div></div><div class="history-section" id="campaignHistoryList"><div class="empty-state"><span>📂</span><span>Previous campaigns will appear here.</span></div></div></div>
+    </div>
+
+    <!-- ══ PITCH ══ -->
+    <div class="page" id="page-pitch">
+      <div class="topbar">
+        <div><div class="page-eyebrow">AI Tool</div><div class="page-title">Sales Pitch Generator</div><div class="page-subtitle">Craft personalized B2B pitches that close deals</div></div>
+        <div class="topbar-right"><div class="api-status" onclick="openModal()"><div class="api-dot ok" id="apiDot3"></div><span id="apiStatusText3">Groq Connected ✓</span></div></div>
+      </div>
+      <div class="form-card">
+        <div class="form-grid-2">
+          <div class="form-group"><label>Product / Solution Name *</label><input type="text" id="p-product" placeholder="e.g. Cloud-based inventory management system"></div>
+          <div class="form-group"><label>Target Industry</label>
+            <select id="p-industry"><option>Technology / SaaS</option><option>Retail / E-commerce</option><option>Healthcare</option><option>Finance / Banking</option><option>Manufacturing</option><option>Professional Services</option><option>Education</option><option>Government</option><option>Other</option></select>
+          </div>
+          <div class="form-group"><label>Customer Persona *</label><textarea id="p-persona" placeholder="e.g. Operations Director at a Fortune 500 retail company scaling across 500 stores..."></textarea></div>
+          <div class="form-group"><label>Company Size</label>
+            <select id="p-size"><option>Startup (1–50)</option><option>SMB (51–500)</option><option>Mid-market (501–5,000)</option><option>Enterprise (5,000–50,000)</option><option>Fortune 500 (50,000+)</option></select>
+          </div>
+        </div>
+        <div class="form-actions" style="margin-top:18px;"><button class="btn-primary" id="pitchBtn" onclick="runPitch()">⚡ Generate Sales Pitch</button></div>
+      </div>
+      <div class="spinner-wrap" id="pitchSpinner"><div class="spinner"></div><div class="spinner-text">Crafting your personalized pitch…</div></div>
+      <div class="result-wrap" id="pitchResult">
+        <div class="result-header"><span class="result-label pitch">✅ Sales Pitch Generated</span><button class="dl-btn" id="pitchDlBtn">📥 Download .txt</button></div>
+        <div class="result-box pitch-accent" id="pitchOutput"></div>
+      </div>
+      <div><div class="section-hdr" style="margin-bottom:10px;"><div class="section-title">Previous Pitches</div></div><div class="history-section" id="pitchHistoryList"><div class="empty-state"><span>📂</span><span>Previous pitches will appear here.</span></div></div></div>
+    </div>
+
+    <!-- ══ LEAD SCORING ══ -->
+    <div class="page" id="page-lead">
+      <div class="topbar">
+        <div><div class="page-eyebrow">AI Tool</div><div class="page-title">Lead Scoring</div><div class="page-subtitle">Qualify and prioritize leads using AI-powered BANT analysis</div></div>
+        <div class="topbar-right"><div class="api-status" onclick="openModal()"><div class="api-dot ok" id="apiDot4"></div><span id="apiStatusText4">Groq Connected ✓</span></div></div>
+      </div>
+      <div class="form-card">
+        <div class="form-grid-2">
+          <div class="form-group"><label>Lead Name / Company *</label><input type="text" id="l-name" placeholder="e.g. Sarah Johnson — Acme Corp"></div>
+          <div class="form-group"><label>Budget Information *</label><textarea id="l-budget" placeholder="e.g. $150K annual software budget, can approve deals up to $50K..."></textarea></div>
+          <div class="form-group"><label>Business Need *</label><textarea id="l-need" placeholder="e.g. Improving customer retention by 20%, reducing churn from 15% to 8%..."></textarea></div>
+          <div class="form-group"><label>Urgency / Timeline *</label><textarea id="l-urgency" placeholder="e.g. Board requested solution by end of Q3, decision in 30 days..."></textarea></div>
+          <div class="form-group full"><label>Additional Notes (optional)</label><input type="text" id="l-notes" placeholder="e.g. Decision maker confirmed, evaluating 3 vendors, previous demo went well..."></div>
+        </div>
+        <div class="form-actions" style="margin-top:18px;"><button class="btn-primary" id="leadBtn" onclick="runLead()">⚡ Score This Lead</button></div>
+      </div>
+      <div class="spinner-wrap" id="leadSpinner"><div class="spinner"></div><div class="spinner-text">Analyzing and scoring with BANT methodology…</div></div>
+      <div class="result-wrap" id="leadResult">
+        <div class="score-grid" id="scoreGrid"></div>
+        <div class="result-header" style="margin-top:4px;"><span class="result-label lead">✅ Full Lead Assessment</span><button class="dl-btn" id="leadDlBtn">📥 Download Report</button></div>
+        <div class="result-box lead-accent" id="leadOutput"></div>
+      </div>
+      <div><div class="section-hdr" style="margin-bottom:10px;"><div class="section-title">Lead Pipeline</div></div><div class="pipeline-table" id="leadPipelineList"><div class="empty-state"><span>📊</span><span>Scored leads will appear here.</span></div></div></div>
+    </div>
+
+    <!-- ══ AI INSIGHTS ══ -->
+    <div class="page" id="page-insights">
+      <div class="topbar">
+        <div><div class="page-eyebrow">Intelligence</div><div class="page-title">AI Insights</div><div class="page-subtitle">Chat with Claude AI for strategy, market research, and marketing intelligence</div></div>
+        <div class="topbar-right">
+          <div class="api-status" onclick="openModal()"><div class="api-dot ok" id="apiDot5"></div><span id="apiStatusText5">Groq Connected ✓</span></div>
+          <button class="btn-primary" onclick="clearInsightsChat()" style="background:rgba(181,164,232,0.25);color:var(--text-secondary);box-shadow:none;border:1px solid var(--border);">🗑 Clear Chat</button>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:9px;">Quick Prompts</div>
+        <div class="prompt-chips">
+          <button class="prompt-chip" onclick="usePrompt(this)">🔍 Analyze competitor positioning strategies</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">📊 SaaS go-to-market strategy guide</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">💡 B2B content marketing ideas for LinkedIn</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">📈 How to improve lead conversion rate</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">🎯 Build an Ideal Customer Profile (ICP)</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">🚀 Product launch marketing checklist</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">💰 SaaS pricing strategy frameworks</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">🌐 SEO strategy for early-stage startups</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">🤝 Account-based marketing (ABM) playbook</button>
+          <button class="prompt-chip" onclick="usePrompt(this)">📧 Cold email sequence best practices</button>
+        </div>
+      </div>
+
+      <div class="chat-wrap">
+        <div class="chat-messages" id="insightMessages">
+          <div class="chat-msg">
+            <div class="chat-avatar ai">⚡</div>
+            <div class="chat-bubble ai">Hello! I'm your AI marketing strategist powered by Claude AI.
+
+Ask me anything about marketing strategy, competitive analysis, content, SEO, pricing, go-to-market, sales funnels, or any business challenge you're facing.
+
+What would you like to explore today?</div>
+          </div>
+        </div>
+        <div id="insightsTyping" style="display:none;padding:4px 22px 8px;">
+          <div class="chat-msg"><div class="chat-avatar ai">⚡</div><div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="insightInput" placeholder="Ask about strategy, market analysis, competitive intelligence, growth tactics…" rows="1" onkeydown="if(event.key===&#39;Enter&#39;&amp;&amp;!event.shiftKey){event.preventDefault();sendInsight();}"></textarea>
+          <button class="chat-send-btn" id="insightSendBtn" onclick="sendInsight()" title="Send (Enter)">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DATA ANALYTICS ══ -->
+    <div class="page" id="page-analytics">
+      <div class="topbar">
+        <div><div class="page-eyebrow">Intelligence</div><div class="page-title">Data Analytics</div><div class="page-subtitle">Upload your data files and ask questions in plain English — AI analyzes, interprets, and visualizes</div></div>
+        <div class="topbar-right"><div class="api-status" onclick="openModal()"><div class="api-dot ok" id="apiDot6"></div><span id="apiStatusText6">Groq Connected ✓</span></div></div>
+      </div>
+
+      <!-- Upload zone (shown when no file loaded) -->
+      <div id="uploadSection">
+        <div class="upload-zone" id="uploadZone" ondragover="event.preventDefault();this.classList.add(&#39;drag-over&#39;)" ondragleave="this.classList.remove(&#39;drag-over&#39;)" ondrop="handleDrop(event)">
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt" onchange="loadFile(event.target.files[0])">
+          <div class="upload-icon">📁</div>
+          <div class="upload-title">Drop your data file here, or click to browse</div>
+          <div class="upload-sub">Upload a spreadsheet or data file to analyze with AI</div>
+          <div class="upload-formats">
+            <span class="fmt-tag fmt-csv">CSV</span>
+            <span class="fmt-tag fmt-xlsx">XLSX · XLS</span>
+            <span class="fmt-tag fmt-json">JSON</span>
+            <span class="fmt-tag fmt-txt">TXT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis workspace (shown after file loaded) -->
+      <div id="analyticsSection" style="display:none;flex-direction:column;gap:18px;">
+
+        <!-- File info + remove -->
+        <div class="file-card">
+          <div class="file-icon" id="fileIconEl">📄</div>
+          <div class="file-meta">
+            <div class="file-name" id="fileNameEl">—</div>
+            <div class="file-info" id="fileInfoEl">—</div>
+          </div>
+          <button class="file-remove" onclick="removeFile()" title="Remove file">✕</button>
+        </div>
+
+        <!-- Data stats -->
+        <div class="data-stats" id="dataStatsEl" style="display:none;">
+          <div class="ds-card"><div class="ds-val" id="dsRows">—</div><div class="ds-lbl">Rows</div></div>
+          <div class="ds-card"><div class="ds-val" id="dsCols">—</div><div class="ds-lbl">Columns</div></div>
+          <div class="ds-card"><div class="ds-val" id="dsSize">—</div><div class="ds-lbl">File Size</div></div>
+          <div class="ds-card"><div class="ds-val" id="dsType">—</div><div class="ds-lbl">Format</div></div>
+        </div>
+
+        <!-- Data preview -->
+        <div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:9px;">Data Preview (first 10 rows)</div>
+          <div class="data-preview-wrap" id="dataPreview"></div>
+        </div>
+
+        <!-- Smart suggestions -->
+        <div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:9px;">Suggested Queries</div>
+          <div class="query-chips" id="queryChips">
+            <button class="query-chip" onclick="setQuery(this)">📊 Summarize this dataset</button>
+            <button class="query-chip" onclick="setQuery(this)">📈 Show trends and patterns</button>
+            <button class="query-chip" onclick="setQuery(this)">🔝 Find the top 5 values</button>
+            <button class="query-chip" onclick="setQuery(this)">📉 Identify outliers or anomalies</button>
+            <button class="query-chip" onclick="setQuery(this)">💡 What key insights can you find?</button>
+            <button class="query-chip" onclick="setQuery(this)">🔢 Calculate averages and statistics</button>
+          </div>
+        </div>
+
+        <!-- Query input -->
+        <div class="form-card" style="padding:18px 20px;">
+          <label style="display:block;margin-bottom:8px;">Ask a question about your data *</label>
+          <div class="query-row">
+            <textarea id="analyticsQuery" placeholder="e.g. What are the top 5 products by revenue? Show me the monthly trend. Which region has the highest sales?"></textarea>
+            <button class="btn-primary" id="analyticsBtn" onclick="runAnalytics()" style="min-width:150px;justify-content:center;align-self:flex-end;">⚡ Analyze</button>
+          </div>
+        </div>
+
+        <!-- Spinner -->
+        <div class="spinner-wrap" id="analyticsSpinner"><div class="spinner"></div><div class="spinner-text">Analyzing your data with Claude AI…</div></div>
+
+        <!-- Result -->
+        <div class="analytics-result" id="analyticsResult">
+          <div class="result-header">
+            <span class="result-label" style="background:rgba(215,119,6,0.10);color:var(--amber);">✅ Analysis Complete</span>
+            <div style="display:flex;gap:8px;">
+              <button class="dl-btn" id="analyticsDlBtn">📥 Download Report</button>
+              <button class="dl-btn" onclick="clearAnalyticsResult()">🔄 New Query</button>
+            </div>
+          </div>
+          <div class="analytics-output" id="analyticsOutput"></div>
+          <div class="chart-wrap" id="chartWrap"><canvas id="analyticsChart"></canvas></div>
+        </div>
+
+        <!-- Analytics history -->
+        <div>
+          <div class="section-hdr" style="margin-bottom:10px;"><div class="section-title">Query History</div></div>
+          <div class="history-section" id="analyticsHistoryList"><div class="empty-state"><span>📂</span><span>Previous queries will appear here.</span></div></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /.layout -->
+</div><!-- /#appRoot -->
+<script>
+// ════════════════════════════════════════════════
+// STORAGE & STATE
+// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════
+// ── AI BACKEND (Anthropic — no key needed) ───────
+// ════════════════════════════════════════════════
+
+// ════════════════════════════════════════════════
+// ── AUTH ─────────────────────────────────────────
+// ════════════════════════════════════════════════
+const USERS_KEY = 'mkai_users_db';
+
+function hashPw(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31,h) + s.charCodeAt(i)) | 0;
+  return h.toString(36);
+}
+function loadUsers()     { try { return JSON.parse(localStorage.getItem(USERS_KEY)||'{}'); } catch(e){ return {}; } }
+function saveUsers(u)    { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+
+let currentUser = null;  // { email, name }
+
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+  document.getElementById('form-login').style.display  = tab==='login'  ? 'flex' : 'none';
+  document.getElementById('form-signup').style.display = tab==='signup' ? 'flex' : 'none';
+}
+
+function doLogin() {
+  const email = document.getElementById('li-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('li-pass').value;
+  const err   = document.getElementById('li-err');
+  if (!email||!pass) { err.textContent='Please fill in all fields.'; return; }
+  const users = loadUsers();
+  if (!users[email]) { err.textContent='No account found. Please sign up first.'; return; }
+  if (users[email].pw !== hashPw(pass)) { err.textContent='Incorrect password.'; return; }
+  err.textContent='';
+  loginUser({ email, name: users[email].name });
+}
+
+function doSignup() {
+  const name  = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('su-pass').value;
+  const err   = document.getElementById('su-err');
+  if (!name||!email||!pass) { err.textContent='Please fill in all fields.'; return; }
+  if (pass.length<6)        { err.textContent='Password must be at least 6 characters.'; return; }
+  const users = loadUsers();
+  if (users[email])         { err.textContent='An account with this email already exists.'; return; }
+  users[email] = { name, pw: hashPw(pass) };
+  saveUsers(users);
+  err.textContent='';
+  loginUser({ email, name });
+}
+
+function loginUser(user) {
+  currentUser = user;
+  sessionStorage.setItem('mkai_session', JSON.stringify(user));
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('appRoot').style.display = 'block';
+  document.getElementById('userNameEl').textContent     = user.name;
+  document.getElementById('userInitialsEl').textContent = user.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  bootApp();
+}
+
+function doLogout() {
+  sessionStorage.removeItem('mkai_session');
+  location.reload();
+}
+
+// ════════════════════════════════════════════════
+// ── PER-USER STORAGE KEYS ──────────────────────
+// ════════════════════════════════════════════════
+function SK() {
+  const u = currentUser ? currentUser.email.replace(/[^a-z0-9]/gi,'_') : 'guest';
+  return {
+    stats:     `mkai_${u}_stats`,
+    leads:     `mkai_${u}_leads`,
+    activity:  `mkai_${u}_activity`,
+    campHist:  `mkai_${u}_camp_history`,
+    pitchHist: `mkai_${u}_pitch_history`,
+    insChat:   `mkai_${u}_insights_chat`,
+    aHist:     `mkai_${u}_analytics_hist`,
+  };
+}
+
+const save = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+const load = (k,fb) => { try { const v = localStorage.getItem(k); return v!==null ? JSON.parse(v) : fb; } catch(e){ return fb; } };
+
+let stats, leadsData, activityLog, campHistory, pitchHistory, insChat, aHistory;
+let fileData = null;
+let chartInst = null;
+
+function bootApp() {
+  const sk = SK();
+  stats        = load(sk.stats,    { campaigns:0, pitches:0 });
+  leadsData    = load(sk.leads,    []);
+  activityLog  = load(sk.activity, []).map(a=>({...a, time:new Date(a.time)}));
+  campHistory  = load(sk.campHist,  []);
+  pitchHistory = load(sk.pitchHist, []);
+  insChat      = load(sk.insChat,   []);
+  aHistory     = load(sk.aHist,     []);
+  stats.leads  = leadsData;
+  setApiStatus(true);
+  restoreAllUI();
+  initInsightsChat();
+  const ta = document.getElementById('insightInput');
+  ta.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,110)+'px'; });
+}
+
+// ════════════════════════════════════════════════
+// NAV
+// ════════════════════════════════════════════════
+function showPage(id, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  document.querySelector('.main').scrollTop = 0;
+}
+
+// ════════════════════════════════════════════════
+// API KEY MODAL (no-op — key is built-in)
+// ════════════════════════════════════════════════
+function openModal()  { /* API key is built-in, no modal needed */ }
+function closeModal() { document.getElementById('apiModal').classList.add('hidden'); }
+function saveApiKey() { closeModal(); }
+
+function setApiStatus(ok) {
+  ['apiDot','apiDot2','apiDot3','apiDot4','apiDot5','apiDot6'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.className = 'api-dot '+(ok?'ok':'bad');
+  });
+  ['apiStatusText','apiStatusText2','apiStatusText3','apiStatusText4','apiStatusText5','apiStatusText6'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.textContent = ok ? 'Groq Connected ✓' : 'API Error';
+  });
+}
+
+function clearAllData() {
+  if (!confirm('Delete ALL your saved data? This cannot be undone.')) return;
+  const sk = SK();
+  Object.values(sk).forEach(k => localStorage.removeItem(k));
+  location.reload();
+}
+
+function changeApiKey() {
+  const newKey = prompt('Enter your new Groq API key (starts with gsk_):');
+  if (!newKey) return;
+  if (!newKey.trim().startsWith('gsk_')) { alert('Invalid key — must start with gsk_'); return; }
+  saveGroqKey(newKey.trim());
+  alert('✅ API key updated! AI tools are ready.');
+  setApiStatus(true);
+}
+
+// ─── SETUP KEY FUNCTIONS ────────────────────────────────────────────────────
+function saveSetupKey() {
+  const val = document.getElementById('setupKeyInput').value.trim();
+  const err = document.getElementById('setupErr');
+  if (!val || !val.startsWith('gsk_')) {
+    err.textContent = 'Please enter a valid Groq API key (starts with gsk_)';
+    return;
+  }
+  saveGroqKey(val);
+  err.textContent = '';
+  document.getElementById('setupPage').classList.add('hidden');
+  // Now show login or auto-login from session
+  checkSession();
+}
+
+function checkSession() {
+  const session = sessionStorage.getItem('mkai_session');
+  if (session) {
+    try { loginUser(JSON.parse(session)); return; } catch(e){}
+  }
+  // show login page
+}
+
+window.addEventListener('load', () => {
+  if (!GROQ_KEY) {
+    // First time — show setup screen
+    document.getElementById('setupPage').classList.remove('hidden');
+    return;
+  }
+  checkSession();
+});
+
+// ════════════════════════════════════════════════
+// AI HELPER — Groq API (LLaMA 3.3 70B)
+// ════════════════════════════════════════════════
+// ════════════════════════════════════════════════
+// GROQ KEY — loaded from localStorage (set once by owner)
+// ════════════════════════════════════════════════
+let GROQ_KEY = localStorage.getItem('mkai_groq_key') || '';
+
+function saveGroqKey(key) {
+  GROQ_KEY = key;
+  localStorage.setItem('mkai_groq_key', key);
+}
+
+async function callGroq(system, user, temp=0.7, history=[]) {
+  if (!GROQ_KEY) throw new Error('NO_KEY');
+  const msgs = history.length
+    ? [{ role:'system', content:system }, ...history]
+    : [{ role:'system', content:system }, { role:'user', content:user }];
+
+  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + GROQ_KEY
+    },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: msgs,
+      temperature: temp,
+      max_tokens: 2048
+    })
+  });
+
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({}));
+    throw new Error(e?.error?.message || 'API error: ' + r.status);
+  }
+  const d = await r.json();
+  return d.choices[0].message.content.replace(/\*\*(.*?)\*\*/g, '$1').trim();
+}
+
+// ════════════════════════════════════════════════
+// CAMPAIGN GENERATOR
+// ════════════════════════════════════════════════
+async function runCampaign() {
+  const product  = document.getElementById('c-product').value.trim();
+  const audience = document.getElementById('c-audience').value.trim();
+  const platform = document.getElementById('c-platform').value;
+  if (!product || !audience) { alert('Please fill in Product and Target Audience.'); return; }
+  setLoading('campaign', true);
+  try {
+    const result = await callGroq(
+      'You are an expert marketing strategist. Generate structured, actionable marketing campaigns with specific, measurable recommendations.',
+      `Generate a comprehensive marketing campaign strategy for:\n\nPRODUCT: ${product}\nTARGET AUDIENCE: ${audience}\nPLATFORM(S): ${platform}\n\n1. CAMPAIGN OBJECTIVES (2-3 SMART goals)\n2. CONTENT IDEAS (exactly 5 targeted ideas)\n3. AD COPY VARIATIONS (exactly 3 variations for ${platform})\n4. CALL-TO-ACTION SUGGESTIONS (3 specific CTAs)\n5. BUDGET ALLOCATION RECOMMENDATION`
+    );
+    setLoading('campaign', false);
+    showResult('campaign', result);
+    stats.campaigns++;
+    save(SK().stats, { campaigns:stats.campaigns, pitches:stats.pitches });
+    updateStats();
+    addActivity('📢', `Campaign generated for <strong>${product.slice(0,40)}</strong> on ${platform}`);
+    addHistory('campaign', product.slice(0,40)+' — '+platform, result);
+    setupDownload('campaignDlBtn', result, `campaign_${sanitize(product)}.txt`);
+  } catch(e) { setLoading('campaign', false); if(e.message==='NO_KEY'){alert('No API key. Please refresh and enter your Groq API key.');}else{alert('Error: '+e.message);} }
+}
+
+// ════════════════════════════════════════════════
+// SALES PITCH
+// ════════════════════════════════════════════════
+async function runPitch() {
+  const product = document.getElementById('p-product').value.trim();
+  const persona = document.getElementById('p-persona').value.trim();
+  const industry= document.getElementById('p-industry').value;
+  const size    = document.getElementById('p-size').value;
+  if (!product || !persona) { alert('Please fill in Product and Customer Persona.'); return; }
+  setLoading('pitch', true);
+  try {
+    const result = await callGroq(
+      'You are an elite B2B sales coach who crafts pitches that close Fortune 500 deals.',
+      `Create a personalized sales pitch for:\n\nPRODUCT: ${product}\nPERSONA: ${persona}\nINDUSTRY: ${industry}\nCOMPANY SIZE: ${size}\n\n1. 30-SECOND ELEVATOR PITCH\n2. VALUE PROPOSITION\n3. KEY DIFFERENTIATORS (3-4)\n4. OBJECTION HANDLING (2 objections)\n5. CALL-TO-ACTION`
+    );
+    setLoading('pitch', false);
+    showResult('pitch', result);
+    stats.pitches++;
+    save(SK().stats, { campaigns:stats.campaigns, pitches:stats.pitches });
+    updateStats();
+    addActivity('🎯', `Pitch created for <strong>${product}</strong> — ${industry}`);
+    addHistory('pitch', product+' — '+size, result);
+    setupDownload('pitchDlBtn', result, `pitch_${sanitize(product)}.txt`);
+  } catch(e) { setLoading('pitch', false); if(e.message==='NO_KEY'){alert('No API key. Please refresh and enter your Groq API key.');}else{alert('Error: '+e.message);} }
+}
+
+// ════════════════════════════════════════════════
+// LEAD SCORING
+// ════════════════════════════════════════════════
+async function runLead() {
+  const name   = document.getElementById('l-name').value.trim();
+  const budget = document.getElementById('l-budget').value.trim();
+  const need   = document.getElementById('l-need').value.trim();
+  const urgency= document.getElementById('l-urgency').value.trim();
+  const notes  = document.getElementById('l-notes').value.trim();
+  if (!name||!budget||!need||!urgency) { alert('Please fill in all required fields.'); return; }
+  setLoading('lead', true);
+  try {
+    const result = await callGroq(
+      'You are a sales qualification expert using BANT methodology. Always return a JSON block followed by detailed reasoning.',
+      `Qualify and score this lead:\n\nLEAD: ${name}\nBUDGET: ${budget}\nNEED: ${need}\nURGENCY: ${urgency}\nNOTES: ${notes||'None'}\n\nFirst output:\n\`\`\`json\n{"score":<0-100>,"probability":<0-100>,"budget_score":<0-25>,"need_score":<0-25>,"urgency_score":<0-25>,"authority_score":<0-25>}\n\`\`\`\n\nThen: SCORE REASONING, RECOMMENDED NEXT ACTIONS (3), RISK FACTORS (2-3)`,
+      0.4
+    );
+    setLoading('lead', false);
+    const {scores, cleaned} = parseLeadScore(result);
+    showLeadResult(scores, cleaned);
+    setupDownload('leadDlBtn', result, `lead_${sanitize(name)}.txt`);
+    if (scores) {
+      stats.leads.push({ name, score:scores.score, prob:scores.probability });
+      leadsData = stats.leads;
+      save(SK().leads, leadsData);
+      updateStats();
+      const lbl = scoreLabel(scores.score);
+      addActivity('📊', `Lead scored: <strong>${name}</strong> — ${lbl.emoji} ${scores.score}/100`);
+      updatePipelineTable(); updateLeadPipeline();
+    }
+  } catch(e) { setLoading('lead', false); if(e.message==='NO_KEY'){alert('No API key. Please refresh and enter your Groq API key.');}else{alert('Error: '+e.message);} }
+}
+
+function parseLeadScore(raw) {
+  let scores=null, cleaned=raw;
+  const m = raw.match(/```json\s*(\{[\s\S]*?\})\s*```/);
+  if (m) { try { scores=JSON.parse(m[1]); cleaned=raw.replace(m[0],'').trim(); } catch(e){} }
+  if (!scores) {
+    const sm=raw.match(/"score":\s*(\d+)/), pm=raw.match(/"probability":\s*(\d+)/);
+    if (sm) scores={score:+sm[1],probability:pm?+pm[1]:50,budget_score:0,need_score:0,urgency_score:0,authority_score:0};
+  }
+  return {scores, cleaned};
+}
+
+function scoreLabel(s) {
+  if (s>=90) return {label:'HOT LEAD', emoji:'🔥', color:'var(--rose)'};
+  if (s>=75) return {label:'WARM LEAD',emoji:'♨️', color:'#f97316'};
+  if (s>=60) return {label:'LUKEWARM', emoji:'🌤', color:'var(--amber)'};
+  return           {label:'COLD LEAD', emoji:'❄️', color:'#60a5fa'};
+}
+
+function showLeadResult(scores, cleaned) {
+  document.getElementById('leadOutput').textContent = cleaned;
+  document.getElementById('leadResult').classList.add('show');
+  const grid = document.getElementById('scoreGrid');
+  if (!scores) { grid.innerHTML=''; return; }
+  const {score,probability,budget_score:bs,need_score:ns,urgency_score:us,authority_score:as_} = scores;
+  const lbl = scoreLabel(score);
+  grid.innerHTML = `
+    <div class="score-panel">
+      <div class="score-num" style="color:${lbl.color}">${score}</div>
+      <div class="score-sublabel">out of 100</div>
+      <div class="score-status" style="color:${lbl.color}">${lbl.emoji} ${lbl.label}</div>
+    </div>
+    <div class="score-panel">
+      <div class="score-num" style="color:var(--green)">${probability}%</div>
+      <div class="score-sublabel">conversion rate</div>
+      <div class="score-status" style="color:var(--green)">Probability</div>
+    </div>
+    <div class="score-panel" style="text-align:left">
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:12px">BANT Breakdown</div>
+      <div class="bant-grid">
+        ${bantRow('💰 Budget',bs,'var(--blue)')}
+        ${bantRow('🎯 Need',ns,'var(--cyan)')}
+        ${bantRow('⚡ Urgency',us,'var(--green)')}
+        ${bantRow('👤 Authority',as_,'#f472b6')}
+      </div>
+    </div>`;
+}
+const bantRow = (label,val,color) =>
+  `<div class="bant-row"><span class="bant-label">${label}</span><div class="bant-bar-bg"><div class="bant-bar" style="width:${(val/25)*100}%;background:${color}"></div></div><span class="bant-score" style="color:${color}">${val}/25</span></div>`;
+
+// ════════════════════════════════════════════════
+// AI INSIGHTS — CHAT
+// ════════════════════════════════════════════════
+const INSIGHTS_SYSTEM = `You are an elite AI marketing strategist and business analyst with deep expertise in:
+- Digital marketing, growth hacking, customer acquisition and retention
+- B2B/B2C sales strategy, pipeline optimization, and CRM
+- Market research, competitive intelligence, and brand positioning
+- Content strategy, SEO, and social media marketing
+- SaaS metrics (MRR, churn, LTV, CAC), pricing, and go-to-market strategy
+- Data-driven marketing, analytics, and attribution
+Provide specific, actionable, well-structured insights. Use clear sections when helpful. Be concise but thorough.`;
+
+function initInsightsChat() {
+  if (insChat.length === 0) return;
+  const msgsEl = document.getElementById('insightMessages');
+  msgsEl.innerHTML = '';
+  // Restore first welcome message
+  addBubble('ai', `Hello! I'm your AI marketing strategist.\n\nWhat would you like to explore today?`);
+  insChat.forEach(m => addBubble(m.role === 'user' ? 'user' : 'ai', m.content));
+  scrollChat();
+}
+
+function clearInsightsChat() {
+  if (!confirm('Clear the chat history?')) return;
+  insChat = [];
+  save(SK().insChat, []);
+  const msgsEl = document.getElementById('insightMessages');
+  msgsEl.innerHTML = '';
+  addBubble('ai', `Chat cleared! What would you like to explore today?`);
+}
+
+function usePrompt(btn) {
+  const text = btn.textContent.replace(/^[\S]+\s/, '').trim();
+  document.getElementById('insightInput').value = text;
+  document.getElementById('insightInput').focus();
+  sendInsight();
+}
+
+async function sendInsight() {
+  const input = document.getElementById('insightInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('insightSendBtn').disabled = true;
+
+  addBubble('user', msg);
+  insChat.push({ role:'user', content:msg });
+
+  const typing = document.getElementById('insightsTyping');
+  typing.style.display = 'block';
+  scrollChat();
+
+  try {
+    const history = insChat.slice(-14); // keep context window manageable
+    const result = await callGroq(INSIGHTS_SYSTEM, '', 0.7, history);
+
+    typing.style.display = 'none';
+    addBubble('ai', result);
+
+    insChat.push({ role:'assistant', content:result });
+    if (insChat.length > 40) insChat.splice(0, 2);
+    save(SK().insChat, insChat);
+    addActivity('🤖', `AI Insight: <strong>${msg.slice(0,55)}${msg.length>55?'…':''}</strong>`);
+  } catch(e) {
+    typing.style.display = 'none';
+    const msg = e.message === 'NO_KEY' ? '❌ No API key set. Please refresh and enter your Groq API key.' : '❌ Error: '+e.message;
+    addBubble('ai', msg);
+  }
+  document.getElementById('insightSendBtn').disabled = false;
+  scrollChat();
+}
+
+function addBubble(role, text) {
+  const msgsEl = document.getElementById('insightMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  // Simple formatting: convert line breaks, bold section headers
+  const html = esc(text)
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>')
+    .replace(/^(#{1,3}\s.*?)$/gm, '<strong>$1</strong>');
+  div.innerHTML = `
+    <div class="chat-avatar ${role}">${role==='ai'?'⚡':'👤'}</div>
+    <div class="chat-bubble ${role}">${html}</div>`;
+  msgsEl.appendChild(div);
+}
+
+function scrollChat() {
+  const el = document.getElementById('insightMessages');
+  setTimeout(() => el.scrollTop = el.scrollHeight, 60);
+}
+
+// ════════════════════════════════════════════════
+// DATA ANALYTICS — FILE HANDLING
+// ════════════════════════════════════════════════
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) loadFile(f);
+}
+
+async function loadFile(file) {
+  if (!file) return;
+  const maxMB = 5;
+  if (file.size > maxMB * 1024 * 1024) { alert(`File too large. Max ${maxMB}MB.`); return; }
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['csv','xlsx','xls','json','txt'].includes(ext)) { alert('Unsupported file. Use CSV, Excel, JSON, or TXT.'); return; }
+
+  let rawText='', headers=[], rows=[];
+  try {
+    if (ext==='csv' || ext==='txt') {
+      rawText = await file.text();
+      const lines = rawText.trim().split('\n').filter(l=>l.trim());
+      if (lines.length) {
+        headers = parseCsvLine(lines[0]);
+        rows    = lines.slice(1).map(parseCsvLine);
+      }
+    } else if (ext==='json') {
+      rawText = await file.text();
+      const j = JSON.parse(rawText);
+      const arr = Array.isArray(j) ? j : (j.data||j.records||Object.values(j)[0]||[j]);
+      if (arr.length) { headers=Object.keys(arr[0]); rows=arr.map(r=>headers.map(h=>String(r[h]??''))); }
+      rawText = JSON.stringify(j, null, 2);
+    } else {
+      const buf = await file.arrayBuffer();
+      const wb  = XLSX.read(buf, {type:'array'});
+      const ws  = wb.Sheets[wb.SheetNames[0]];
+      const arr = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+      if (arr.length) { headers=arr[0].map(String); rows=arr.slice(1).map(r=>headers.map((_,i)=>String(r[i]??''))); }
+      rawText = XLSX.utils.sheet_to_csv(ws);
+    }
+  } catch(e) { alert('Could not read file: '+e.message); return; }
+
+  fileData = { name:file.name, size:file.size, ext:ext.toUpperCase(), rawText, headers, rows };
+  showAnalyticsWorkspace();
+}
+
+function parseCsvLine(line) {
+  const res=[]; let cur='', inQ=false;
+  for (let i=0;i<line.length;i++) {
+    const c=line[i];
+    if (c==='"') { inQ=!inQ; }
+    else if (c===','&&!inQ) { res.push(cur.trim()); cur=''; }
+    else { cur+=c; }
+  }
+  res.push(cur.trim());
+  return res;
+}
+
+function showAnalyticsWorkspace() {
+  const d = fileData;
+  document.getElementById('uploadSection').style.display = 'none';
+  const ws = document.getElementById('analyticsSection');
+  ws.style.display = 'flex';
+
+  // File card
+  const icons = {CSV:'📄',XLSX:'📊',XLS:'📊',JSON:'📋',TXT:'📝'};
+  document.getElementById('fileIconEl').textContent = icons[d.ext]||'📄';
+  document.getElementById('fileNameEl').textContent = d.name;
+  document.getElementById('fileInfoEl').textContent = `${(d.size/1024).toFixed(1)} KB · ${d.ext} · ${d.rows.length} rows · ${d.headers.length} columns`;
+
+  // Stats
+  document.getElementById('dsRows').textContent = d.rows.length.toLocaleString();
+  document.getElementById('dsCols').textContent = d.headers.length;
+  document.getElementById('dsSize').textContent = (d.size/1024).toFixed(1)+'KB';
+  document.getElementById('dsType').textContent = d.ext;
+  document.getElementById('dataStatsEl').style.display = 'grid';
+
+  // Preview table
+  const preview = document.getElementById('dataPreview');
+  if (d.headers.length) {
+    const th = d.headers.map(h=>`<th>${esc(h)}</th>`).join('');
+    const trs = d.rows.slice(0,10).map(r=>`<tr>${d.headers.map((_,i)=>`<td>${esc(String(r[i]??''))}</td>`).join('')}</tr>`).join('');
+    preview.innerHTML = `<table><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table>`;
+  } else {
+    preview.innerHTML = '<p style="padding:16px;color:var(--text-muted);font-size:0.82rem;">No structured data found.</p>';
+  }
+
+  // Smart query chips
+  buildQueryChips(d.headers);
+
+  // Restore history
+  renderAnalyticsHistory();
+}
+
+function buildQueryChips(headers) {
+  const num  = headers.filter(h=>/price|amount|revenue|sales|cost|value|count|qty|score|rate|%|num|total/i.test(h));
+  const cat  = headers.filter(h=>/name|category|type|region|country|city|status|product|segment|label/i.test(h));
+  const date = headers.filter(h=>/date|time|month|year|period|week|day/i.test(h));
+  const chips = ['💡 Summarize this dataset and highlight key insights'];
+  if (num.length)         chips.push(`📊 Calculate statistics for ${num.slice(0,2).join(' and ')}`);
+  if (cat.length)         chips.push(`🔝 What are the top 5 by ${cat[0]}?`);
+  if (date.length)        chips.push(`📈 Show trends over time using ${date[0]}`);
+  if (num.length&&cat.length) chips.push(`📉 Compare ${num[0]} across different ${cat[0]} categories`);
+  chips.push('🔍 Find any outliers or anomalies in the data');
+  chips.push('🔮 What patterns or correlations do you see?');
+  chips.push('📋 Give me a business-ready summary report');
+  document.getElementById('queryChips').innerHTML = chips.map(c=>`<button class="query-chip" onclick="setQuery(this)">${c}</button>`).join('');
+}
+
+function setQuery(btn) {
+  const text = btn.textContent.replace(/^[\S]+\s/,'').trim();
+  document.getElementById('analyticsQuery').value = text;
+  document.getElementById('analyticsQuery').focus();
+}
+
+function removeFile() {
+  fileData = null;
+  document.getElementById('analyticsSection').style.display = 'none';
+  document.getElementById('uploadSection').style.display = 'block';
+  document.getElementById('fileInput').value = '';
+  clearAnalyticsResult();
+}
+
+function clearAnalyticsResult() {
+  document.getElementById('analyticsResult').classList.remove('show');
+  document.getElementById('analyticsSpinner').classList.remove('show');
+  document.getElementById('chartWrap').classList.remove('show');
+  if (chartInst) { chartInst.destroy(); chartInst=null; }
+}
+
+// ════════════════════════════════════════════════
+// DATA ANALYTICS — GROQ QUERY
+// ════════════════════════════════════════════════
+async function runAnalytics() {
+  const query = document.getElementById('analyticsQuery').value.trim();
+  if (!query)    { alert('Please enter a question.'); return; }
+  if (!fileData) { alert('Please upload a file first.'); return; }
+
+  clearAnalyticsResult();
+  document.getElementById('analyticsSpinner').classList.add('show');
+  document.getElementById('analyticsBtn').disabled = true;
+
+  const d = fileData;
+  const preview = [d.headers.join(','), ...d.rows.slice(0,60).map(r=>r.join(','))].join('\n');
+  const truncNote = d.rows.length>60 ? `\n[Note: Showing first 60 of ${d.rows.length} total rows]` : '';
+
+  const system = `You are an expert data analyst and business intelligence specialist.
+When answering, always:
+1. Directly answer the query with specific numbers and findings
+2. Include statistics, percentages, and concrete data points
+3. Identify patterns, trends, or anomalies
+4. Give business-relevant interpretation and recommendations
+5. Suggest useful follow-up analyses
+
+If a chart would help visualize the answer, include a JSON block at the END of your response:
+\`\`\`chart
+{"type":"bar","labels":["A","B","C"],"datasets":[{"label":"Value","data":[10,20,15]}],"title":"Chart Title"}
+\`\`\`
+Supported types: bar, line, pie, doughnut. Only include a chart if it genuinely adds value.`;
+
+  const userMsg = `Dataset: ${d.name} (${d.ext}, ${d.rows.length} rows × ${d.headers.length} cols)
+Columns: ${d.headers.join(', ')}
+
+Data:
+${preview}${truncNote}
+
+Query: ${query}`;
+
+  try {
+    const raw = await callGroq(system, userMsg, 0.3);
+
+    // Extract chart JSON if present
+    const cm = raw.match(/```chart\s*([\s\S]*?)```/);
+    let chartCfg = null;
+    let text = raw;
+    if (cm) {
+      try { chartCfg = JSON.parse(cm[1]); } catch(e){}
+      text = raw.replace(cm[0],'').trim();
+    }
+
+    document.getElementById('analyticsSpinner').classList.remove('show');
+    document.getElementById('analyticsOutput').textContent = text;
+    document.getElementById('analyticsResult').classList.add('show');
+
+    if (chartCfg) renderChart(chartCfg);
+
+    // Download
+    document.getElementById('analyticsDlBtn').onclick = () => {
+      const content = `Query: ${query}\nFile: ${d.name}\nDate: ${new Date().toLocaleString()}\n\n${'─'.repeat(60)}\n\n${text}`;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([content],{type:'text/plain'}));
+      a.download = `analytics_${Date.now()}.txt`;
+      a.click();
+    };
+
+    // Save history
+    aHistory.unshift({ query, result:text, file:d.name, ts:Date.now() });
+    if (aHistory.length>20) aHistory.splice(20);
+    save(SK().aHist, aHistory);
+    renderAnalyticsHistory();
+    addActivity('📈', `Data analyzed: <strong>${d.name}</strong> — ${query.slice(0,45)}…`);
+  } catch(e) {
+    document.getElementById('analyticsSpinner').classList.remove('show');
+    const msg = e.message === 'NO_KEY' ? '❌ No API key. Please refresh the page and enter your Groq key.' : '❌ Error: '+e.message;
+    document.getElementById('analyticsOutput').textContent = msg;
+    document.getElementById('analyticsResult').classList.add('show');
+  }
+  document.getElementById('analyticsBtn').disabled = false;
+}
+
+// ════════════════════════════════════════════════
+// CHART RENDERING
+// ════════════════════════════════════════════════
+const CHART_PALETTE = [
+  'rgba(99,102,241,0.75)','rgba(155,93,229,0.75)','rgba(34,184,207,0.75)',
+  'rgba(45,212,160,0.75)','rgba(215,119,6,0.75)','rgba(232,99,122,0.75)',
+  'rgba(181,164,232,0.75)','rgba(99,102,241,0.45)'
+];
+
+function renderChart(cfg) {
+  const wrap = document.getElementById('chartWrap');
+  const canvas = document.getElementById('analyticsChart');
+  wrap.classList.add('show');
+  if (chartInst) chartInst.destroy();
+
+  if (cfg.datasets && !cfg.datasets[0].backgroundColor) {
+    const isLine = cfg.type === 'line';
+    cfg.datasets[0].backgroundColor = isLine ? 'rgba(99,102,241,0.12)' : CHART_PALETTE;
+    cfg.datasets[0].borderColor     = isLine ? 'rgba(99,102,241,0.9)' : CHART_PALETTE.map(c=>c.replace('0.75','1'));
+    if (isLine) { cfg.datasets[0].tension=0.4; cfg.datasets[0].fill=true; cfg.datasets[0].pointBackgroundColor='rgba(99,102,241,0.9)'; }
+  }
+
+  const baseFont = { family:"'Instrument Sans', sans-serif" };
+  chartInst = new Chart(canvas, {
+    type: cfg.type||'bar',
+    data: { labels:cfg.labels||[], datasets:cfg.datasets||[] },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {
+        legend:  { labels:{ ...baseFont, size:12, color:'#6b6080', padding:16 } },
+        title:   cfg.title ? { display:true, text:cfg.title, font:{...baseFont,size:14,weight:'800'}, color:'#2c2438', padding:{bottom:16} } : {display:false}
+      },
+      scales: (cfg.type==='pie'||cfg.type==='doughnut') ? {} : {
+        x: { ticks:{...baseFont,size:11,color:'#a89fbc'}, grid:{color:'rgba(181,164,232,0.10)'} },
+        y: { ticks:{...baseFont,size:11,color:'#a89fbc'}, grid:{color:'rgba(181,164,232,0.12)'} }
+      }
+    }
+  });
+  wrap.style.height = '300px';
+}
+
+// ════════════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════════════
+function setLoading(type, on) {
+  document.getElementById(type+'Spinner').classList.toggle('show', on);
+  document.getElementById(type+'Btn').disabled = on;
+  if (on) document.getElementById(type+'Result').classList.remove('show');
+}
+function showResult(type, text) {
+  document.getElementById(type+'Output').textContent = text;
+  document.getElementById(type+'Result').classList.add('show');
+}
+function setupDownload(btnId, text, filename) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.onclick = () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text],{type:'text/plain'}));
+    a.download = filename; a.click();
+  };
+}
+function sanitize(s) { return s.replace(/[^a-z0-9]/gi,'_').toLowerCase().slice(0,30); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatDate(ts) {
+  if (!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});
+}
+function timeAgo(date) {
+  const s = Math.floor((Date.now()-date)/1000);
+  if (s<60) return 'just now';
+  if (s<3600) return Math.floor(s/60)+'m ago';
+  return Math.floor(s/3600)+'h ago';
+}
+
+// ════════════════════════════════════════════════
+// STATS
+// ════════════════════════════════════════════════
+function updateStats() {
+  document.getElementById('s-campaigns').textContent = stats.campaigns;
+  document.getElementById('s-pitches').textContent   = stats.pitches;
+  document.getElementById('s-leads').textContent     = stats.leads.length;
+  if (stats.leads.length>0) {
+    const avg = Math.round(stats.leads.reduce((a,l)=>a+l.score,0)/stats.leads.length);
+    document.getElementById('s-avgscore').textContent = avg;
+    document.getElementById('s-avgscore-change').textContent = `${stats.leads.length} lead${stats.leads.length>1?'s':''}`;
+    document.getElementById('s-avgscore-change').className = 'stat-change up';
+  }
+}
+
+// ════════════════════════════════════════════════
+// ACTIVITY FEED
+// ════════════════════════════════════════════════
+const ACT_COLORS = {'📢':'var(--blue)','🎯':'var(--cyan)','📊':'var(--green)','🤖':'var(--purple)','📈':'var(--amber)'};
+
+function addActivity(icon, text) {
+  activityLog.unshift({ icon, text, time:new Date() });
+  if (activityLog.length>50) activityLog.splice(50);
+  save(SK().activity, activityLog);
+  renderActivity();
+}
+function renderActivity() {
+  const list = document.getElementById('activityList');
+  if (activityLog.length===0) { list.innerHTML='<div class="empty-state"><span>📋</span><span>No activity yet.</span></div>'; return; }
+  list.innerHTML = activityLog.slice(0,8).map(a=>`
+    <div class="act-item">
+      <div class="act-dot" style="background:${ACT_COLORS[a.icon]||'var(--blue)'}"></div>
+      <div><div class="act-text">${a.text}</div><div class="act-time">${timeAgo(new Date(a.time))}</div></div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// PIPELINE
+// ════════════════════════════════════════════════
+const GRADS = ['linear-gradient(135deg,#6366f1,#9b5de5)','linear-gradient(135deg,#22b8cf,#6366f1)','linear-gradient(135deg,#2dd4a0,#22b8cf)','linear-gradient(135deg,#d97706,#f97316)'];
+
+function pipelineRow(l, i) {
+  const lbl = scoreLabel(l.score);
+  const init = l.name.split(/[\s\-—]+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
+  return `<div class="pipeline-row">
+    <div class="p-avatar" style="background:${GRADS[i%GRADS.length]}">${init}</div>
+    <div style="flex:1;min-width:0"><div class="p-name">${esc(l.name)}</div>${l.prob?`<div class="p-co">Conv: ${l.prob}%</div>`:''}</div>
+    <div class="p-bar-wrap" style="width:90px;flex-shrink:0"><div class="p-bar-bg"><div class="p-bar" style="width:${l.score}%;background:${lbl.color}"></div></div></div>
+    <div style="text-align:right;flex-shrink:0;width:78px"><div class="p-score-num" style="color:${lbl.color}">${l.score}</div><div class="p-score-lbl" style="color:${lbl.color}">${lbl.emoji} ${lbl.label}</div></div>
+  </div>`;
+}
+
+function updatePipelineTable() {
+  const table = document.getElementById('pipelineTable');
+  if (!stats.leads.length) { table.innerHTML='<div class="empty-state"><span>📊</span><span>No leads scored yet.</span></div>'; return; }
+  const sorted = [...stats.leads].sort((a,b)=>b.score-a.score).slice(0,5);
+  table.innerHTML = sorted.map((l,i)=>pipelineRow(l,i)).join('');
+}
+function updateLeadPipeline() {
+  const table = document.getElementById('leadPipelineList');
+  if (!stats.leads.length) { table.innerHTML='<div class="empty-state"><span>📊</span><span>Scored leads will appear here.</span></div>'; return; }
+  const sorted = [...stats.leads].sort((a,b)=>b.score-a.score);
+  table.innerHTML = sorted.map((l,i)=>pipelineRow(l,i)).join('');
+}
+
+// ════════════════════════════════════════════════
+// HISTORY
+// ════════════════════════════════════════════════
+function addHistory(type, label, content) {
+  const entry = { label, content, ts:Date.now() };
+  if (type==='campaign') {
+    campHistory.unshift(entry); if(campHistory.length>30) campHistory.splice(30);
+    save(SK().campHist, campHistory);
+    renderHistory('campaignHistoryList', campHistory, 'campaign', '📢 Campaign', 'htag-campaign');
+  } else if (type==='pitch') {
+    pitchHistory.unshift(entry); if(pitchHistory.length>30) pitchHistory.splice(30);
+    save(SK().pitchHist, pitchHistory);
+    renderHistory('pitchHistoryList', pitchHistory, 'pitch', '🎯 Pitch', 'htag-pitch');
+  }
+}
+
+function renderHistory(listId, arr, type, tagLabel, tagClass) {
+  const el = document.getElementById(listId);
+  if (!el) return;
+  if (!arr.length) {
+    el.innerHTML = `<div class="empty-state"><span>📂</span><span>Previous ${type==='campaign'?'campaigns':'pitches'} will appear here.</span></div>`;
+    return;
+  }
+  el.innerHTML = arr.map(entry => {
+    const id = 'h'+entry.ts+Math.random().toString(36).slice(2,5);
+    return `<div class="history-item">
+      <div class="history-toggle" onclick="toggleH(this,'${id}')">
+        <span class="history-tag ${tagClass}">${tagLabel}</span>
+        <span style="font-size:0.82rem;color:var(--text-secondary);flex:1;margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(entry.label)}</span>
+        <span style="font-size:0.68rem;color:var(--text-muted);margin-right:8px;flex-shrink:0">${formatDate(entry.ts)}</span>
+        <span class="history-toggle-icon">▼</span>
+      </div>
+      <div class="history-content" id="${id}">${esc(entry.content)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAnalyticsHistory() {
+  const el = document.getElementById('analyticsHistoryList');
+  if (!el) return;
+  if (!aHistory.length) { el.innerHTML='<div class="empty-state"><span>📂</span><span>Previous queries will appear here.</span></div>'; return; }
+  el.innerHTML = aHistory.map(entry => {
+    const id = 'ah'+entry.ts;
+    return `<div class="history-item">
+      <div class="history-toggle" onclick="toggleH(this,'${id}')">
+        <span class="history-tag htag-analytics">📈 Analytics</span>
+        <span style="font-size:0.82rem;color:var(--text-secondary);flex:1;margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(entry.query)}</span>
+        <span style="font-size:0.68rem;color:var(--text-muted);margin-right:8px;flex-shrink:0">${entry.file ? entry.file.slice(0,20) : ''} · ${formatDate(entry.ts)}</span>
+        <span class="history-toggle-icon">▼</span>
+      </div>
+      <div class="history-content" id="${id}">${esc(entry.result)}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleH(el, id) {
+  el.classList.toggle('open');
+  document.getElementById(id).classList.toggle('show');
+}
+
+// ════════════════════════════════════════════════
+// RESTORE ON LOAD
+// ════════════════════════════════════════════════
+function restoreAllUI() {
+  updateStats();
+  renderActivity();
+  renderHistory('campaignHistoryList', campHistory, 'campaign', '📢 Campaign', 'htag-campaign');
+  renderHistory('pitchHistoryList', pitchHistory, 'pitch', '🎯 Pitch', 'htag-pitch');
+  updatePipelineTable();
+  updateLeadPipeline();
+  renderAnalyticsHistory();
+}
+</script>
+
+
+</body></html>
