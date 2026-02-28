@@ -1,4 +1,3 @@
-
 import streamlit as st
 import os
 import re
@@ -181,6 +180,34 @@ label { color: #a8a6bc !important; font-size: 0.875rem !important; }
     padding: 1rem 1.5rem;
     margin-bottom: 1.5rem;
 }
+
+/* Card-style nav buttons */
+[data-testid="stButton"]:has(button[data-testid="baseButton-secondary"]) button,
+button[key="nav_campaign"], button[key="nav_pitch"], button[key="nav_lead"] {
+    background: linear-gradient(135deg, #13131f, #1a1a2e) !important;
+}
+
+div[data-testid="stColumn"] .stButton > button {
+    background: linear-gradient(135deg, #13131f, #1a1a2e) !important;
+    border: 1px solid #2a2a45 !important;
+    border-radius: 16px !important;
+    text-align: left !important;
+    min-height: 190px !important;
+    white-space: pre-wrap !important;
+    line-height: 1.5 !important;
+    font-size: 0.9rem !important;
+    font-weight: 400 !important;
+    padding: 1.5rem !important;
+    letter-spacing: normal !important;
+}
+div[data-testid="stColumn"] .stButton > button:hover {
+    border-color: #a78bfa !important;
+    transform: translateY(-3px) !important;
+    opacity: 1 !important;
+}
+div[data-testid="stColumn"] .stButton > button:first-line {
+    font-size: 2rem !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -342,35 +369,59 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     st.markdown("---")
-    
-    page = st.radio(
-        "Navigate",
-        ["🏠 Dashboard", "📢 Campaign Generator", "🎯 Sales Pitch", "📊 Lead Scoring"],
-        label_visibility="collapsed"
-    )
-    
+
+    current = st.session_state.get("nav_page", "🏠 Dashboard")
+
+    nav_items = [
+        ("🏠 Dashboard", "🏠 Dashboard"),
+        ("📢 Campaign Generator", "📢 Campaign Generator"),
+        ("🎯 Sales Pitch", "🎯 Sales Pitch"),
+        ("📊 Lead Scoring", "📊 Lead Scoring"),
+    ]
+
+    st.markdown("""
+    <style>
+    [data-testid="stSidebar"] .stRadio { display: none !important; }
+    [data-testid="stSidebar"] .nav-link > button {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        color: #a8a6bc !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 0.95rem !important;
+        font-weight: 400 !important;
+        padding: 0.4rem 0.5rem !important;
+        width: 100% !important;
+        text-align: left !important;
+        letter-spacing: normal !important;
+        cursor: pointer !important;
+        box-shadow: none !important;
+    }
+    [data-testid="stSidebar"] .nav-link > button:hover {
+        color: #e8e6f0 !important;
+        background: transparent !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    [data-testid="stSidebar"] .nav-link-active > button {
+        color: #a78bfa !important;
+        font-weight: 600 !important;
+        background: transparent !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    for label, key in nav_items:
+        is_active = current == key
+        css_class = "nav-link-active" if is_active else "nav-link"
+        st.markdown(f'<div class="{css_class}">', unsafe_allow_html=True)
+        if st.button(label, key=f"sidebar_{key}", use_container_width=True):
+            st.session_state["nav_page"] = key
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
     st.markdown("---")
-    st.markdown("<div style='font-size:0.8rem;color:#5a5870;margin-bottom:0.5rem;font-family:Syne,sans-serif;font-weight:600;letter-spacing:0.05em;'>API CONFIGURATION</div>", unsafe_allow_html=True)
-    
-    api_key_input = st.text_input(
-        "Groq API Key",
-        type="password",
-        placeholder="gsk_...",
-        help="Get your key at https://console.groq.com"
-    )
-    
-    # Store in session
-    if api_key_input:
-        st.session_state["groq_api_key"] = api_key_input
-    
-    api_key = st.session_state.get("groq_api_key", "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")
-    
-    if api_key:
-        st.success("✓ API Key set")
-    else:
-        st.warning("Enter API key to use features")
-    
-    st.markdown("---")
+    api_key = "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"  # 🔑 Replace with your actual key
     st.markdown("""
     <div style="font-size:0.75rem;color:#5a5870;line-height:1.6;">
         <strong style="color:#7c7a90;">Model:</strong> LLaMA 3.3 70B<br>
@@ -382,59 +433,76 @@ with st.sidebar:
 # ─── Pages ────────────────────────────────────────────────────────────────────
 
 # ── DASHBOARD ──────────────────────────────────────────────────────────────────
+page = st.session_state.get("nav_page", "🏠 Dashboard")
+
 if page == "🏠 Dashboard":
     st.markdown("""
     <div class="hero-title">MarketAI Suite</div>
     <div class="hero-sub">AI-powered sales & marketing intelligence — generate campaigns, craft pitches, and qualify leads in seconds.</div>
     """, unsafe_allow_html=True)
     
+    # Clickable cards via styled full-width buttons
+    st.markdown("""
+    <style>
+    div[data-testid="stButton"] button[kind="secondary"],
+    div[data-testid="stColumn"] .stButton > button {
+        all: unset;
+    }
+    #nav_campaign, #nav_pitch, #nav_lead { display: none; }
+
+    .card-btn-wrap button {
+        background: linear-gradient(135deg, #13131f, #1a1a2e) !important;
+        border: 1px solid #2a2a45 !important;
+        border-radius: 16px !important;
+        padding: 1.5rem !important;
+        width: 100% !important;
+        text-align: left !important;
+        cursor: pointer !important;
+        color: #e8e6f0 !important;
+        font-family: inherit !important;
+        font-size: 1rem !important;
+        font-weight: 400 !important;
+        transition: border-color 0.2s, transform 0.15s !important;
+        min-height: 180px !important;
+        display: block !important;
+        background-image: none !important;
+        letter-spacing: normal !important;
+    }
+    .card-btn-wrap button:hover {
+        border-color: #a78bfa !important;
+        transform: translateY(-2px) !important;
+        opacity: 1 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("""
-        <div class="feature-card">
-            <div class="feature-icon">📢</div>
-            <h3>Campaign Generator</h3>
-            <p>Generate full marketing campaigns with content ideas, ad copy variations, and platform-specific CTAs.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        if st.button(
+            "📢\n\nCampaign Generator\n\nGenerate full marketing campaigns with content ideas, ad copy variations, and platform-specific CTAs.",
+            key="nav_campaign", use_container_width=True
+        ):
+            st.session_state["nav_page"] = "📢 Campaign Generator"
+            st.rerun()
     
     with col2:
-        st.markdown("""
-        <div class="feature-card">
-            <div class="feature-icon">🎯</div>
-            <h3>Sales Pitch Generator</h3>
-            <p>Craft personalized B2B pitches with elevator pitch, value props, differentiators, and objection handling.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        if st.button(
+            "🎯\n\nSales Pitch Generator\n\nCraft personalized B2B pitches with elevator pitch, value props, differentiators, and objection handling.",
+            key="nav_pitch", use_container_width=True
+        ):
+            st.session_state["nav_page"] = "🎯 Sales Pitch"
+            st.rerun()
     
     with col3:
-        st.markdown("""
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Lead Scoring</h3>
-            <p>Qualify and score leads using BANT methodology with conversion probability and next-step recommendations.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        if st.button(
+            "📊\n\nLead Scoring\n\nQualify and score leads using BANT methodology with conversion probability and next-step recommendations.",
+            key="nav_lead", use_container_width=True
+        ):
+            st.session_state["nav_page"] = "📊 Lead Scoring"
+            st.rerun()
     
-    st.markdown("<hr class='divider'>", unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:#e8e6f0;margin-bottom:1rem;">
-        🚀 Quick Start
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div style="background:#13131f;border:1px solid #2a2a45;border-radius:12px;padding:1.5rem;color:#a8a6bc;font-size:0.9rem;line-height:2;">
-        <strong style="color:#a78bfa;">Step 1:</strong> Enter your Groq API key in the sidebar (get one free at console.groq.com)<br>
-        <strong style="color:#38bdf8;">Step 2:</strong> Choose a feature from the sidebar navigation<br>
-        <strong style="color:#34d399;">Step 3:</strong> Fill in your product/lead details and click Generate<br>
-        <strong style="color:#f472b6;">Step 4:</strong> Copy, refine, and use your AI-generated content
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
+
     
     # Example scenarios
     with st.expander("📖 View Example Use Cases from the Hackathon Brief"):
